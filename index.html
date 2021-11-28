@@ -3,22 +3,77 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>p5.js example</title>
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-    }
-  </style>
-  <script src="p5.js"></script>
-  <script src="p5.sound.js"></script>
+  <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1.0, user-scalable=0">
+  <title>The sound of extinction</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="lib/p5.js"></script>
+  <script src="lib/p5.sound.js"></script>
+  <script src="lib/jquery.min.js"></script>
+
   <script src="sketch.js"></script>
+
+  <script src="misc.js"></script>
 </head>
 
 <body>
-  <main>
-  </main>
+  <div class="full-width full-height flex-container" id="intro-page">
+    <h1>The sound of extinction</h1>
+    <button class="gray-bg white-fg default-button" onclick="ToMenu()">Welcome</button>
+  </div>
+  <div class="full-width full-height flex-container" id="menu-page">
+    <h2>Choose biome</h2>
+    <button class="gray-bg white-fg default-button flex-container biome-button" onclick="RunGame('Forest')">
+      <img src="img/flaimingo.png">
+      <span>Forest</span>
+    </button>
+  </div>
+  <div class="full-width full-height flex-container" id="game-page">
+    <h2>Forest</h2>
+    <div class="flex-container-width full-width">
+      <div class="width3 flex-container">
+        <button class="gray-bg white-fg default-button" id="scene-a-sound-a" onclick="PlaySound(0)">
+          Sound A
+        </button>
+      </div>
+      <div class="width3 flex-container" id="spectrogram-area">
+        
+      </div>
+      <div class="width3 flex-container">
+        <button class="gray-bg white-fg default-button" id="scene-a-sound-b" onclick="PlaySound(1)">
+          Sound B
+        </button>
+      </div>
+    </div>
+    <div class="fixed-bottom full-width light-gray-bg timeline">
+      <div class="fixed-bottom gray-bg timeline" id="timeline-fill">
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let intro = $("#intro-page")
+    let menu = $("#menu-page")
+    let game = $("#game-page")
+    
+    menu.hide()
+    game.hide()
+
+    function ToMenu(){
+      intro.hide()
+      menu.show()
+      game.hide()
+    }
+
+    function RunGame(biome){
+      menu.hide()
+      game.show()
+      setTimeout(Timer, 1000/24)
+      PlaySound(2, true)
+    }
+  </script>
 </body>
 
 </html>

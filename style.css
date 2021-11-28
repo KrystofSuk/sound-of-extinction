@@ -1,0 +1,124 @@
+@font-face {
+    font-family: Inter-Regular;
+    src: url(INTER-REGULAR.TTF);
+}
+
+@font-face {
+    font-family: Inter-Bold;
+    src: url(INTER-BOLD.TTF);
+}
+
+@font-face {
+    font-family: Inter-Light;
+    src: url(INTER-LIGHT.TTF);
+}
+
+:root {
+    --gray: #444444;
+    --light-gray: #AAAAAA;
+    --white: #ffffff;
+}
+
+html {
+    height: calc(var(--vh, 1vh) * 100);
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: Inter-Regular;
+}
+
+.gray-bg{
+    background-color: var(--gray);
+}
+
+.light-gray-bg{
+    background-color: var(--light-gray);
+}
+
+.white-fg{
+    color: var(--white);
+}
+
+.full-width{
+    width: 100%;
+}
+
+.full-height{
+    height: 100%;
+}
+
+.flex-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-container-width{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.default-button{
+    border-radius: 10px;
+    width: 80%;
+    max-width: 300px;
+    text-align: center;
+    outline: none;
+    border: none;
+    font-size: 32px;
+    font-family: Inter-Light;
+    padding: 16px;
+}
+
+.default-button:disabled{
+    background-color: var(--light-gray);
+}
+
+.biome-button{
+    width: auto;
+    max-width: 300px;
+    padding: 30px 20px 18px 20px;
+}
+
+.biome-button span{
+    margin: 0;
+    margin-top: 20px;
+    font-family: Inter-Bold;
+}
+
+.width3{
+    width: 33%;
+}
+
+.fixed-bottom{
+    position: absolute;
+    bottom: 0;
+}
+
+.timeline{
+    height: 10px;
+}
+
+h1, h2{
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 77px;
+    letter-spacing: 0em;
+    text-align: center;  
+    margin-top: 0;
+    margin-bottom: 80px;  
+}
