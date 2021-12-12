@@ -1,79 +1,158 @@
 <!DOCTYPE html>
 <html lang="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1.0, user-scalable=0"/>
+    <title>The sound of extinction</title>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1.0, user-scalable=0">
-  <title>The sound of extinction</title>
+    <link rel="stylesheet" href="style.css" />
 
-  <link rel="stylesheet" href="style.css">
+    <script src="lib/p5.js"></script>
+    <script src="lib/p5.sound.js"></script>
+    <script src="lib/jquery.min.js"></script>
 
-  <script src="lib/p5.js"></script>
-  <script src="lib/p5.sound.js"></script>
-  <script src="lib/jquery.min.js"></script>
+    <script src="sketch.js"></script>
 
-  <script src="sketch.js"></script>
+    <script src="misc.js"></script>
+  </head>
 
-  <script src="misc.js"></script>
-</head>
+  <body>
+    <div class="full-width full-height flex-container" id="intro-page">
+      <h1>THE SOUND OF EXTINCTION</h1>
+      <button class="gray-bg white-fg default-button" id="to-menu-button" onclick="ToMenu()">Continue</button>
+    </div>
 
-<body>
-  <div class="full-width full-height flex-container" id="intro-page">
-    <h1>The sound of extinction</h1>
-    <button class="gray-bg white-fg default-button" onclick="ToMenu()">Welcome</button>
-  </div>
-  <div class="full-width full-height flex-container" id="menu-page">
-    <h2>Choose biome</h2>
-    <button class="gray-bg white-fg default-button flex-container biome-button" onclick="RunGame('Forest')">
-      <img src="img/flaimingo.png">
-      <span>Forest</span>
-    </button>
-  </div>
-  <div class="full-width full-height flex-container" id="game-page">
-    <h2>Forest</h2>
-    <div class="flex-container-width full-width">
-      <div class="width3 flex-container">
-        <button class="gray-bg white-fg default-button" id="scene-a-sound-a" onclick="PlaySound(0)">
-          Sound A
+    <div class="full-width full-height flex-container" id="menu-page">
+      <h2>CHOOSE BIOME</h2>
+      <div class="flex-container-width full-width">
+          <button class="gray-bg white-fg default-button biome-button flex-container" id="biome0" onclick="ToBiome(0, this.id)" value="Forest">
+            Forest
+            <img class="white-fg biome-image" src="data/img/forest.svg" />
+          </button>
+
+          <button class="gray-bg white-fg default-button biome-button flex-container" id="biome1" onclick="ToBiome(1, this.id)" value="Shrubland">
+            Shrubland
+            <img class="biome-image" src="data/img/forest.svg" />
+          </button>
+
+          <button class="gray-bg white-fg default-button biome-button flex-container" id="biome2" onclick="ToBiome(2, this.id)" value="Savanna">
+            Savanna
+            <img class="biome-image" src="data/img/forest.svg" />
+          </button>
+
+          <button class="gray-bg white-fg default-button biome-button flex-container" id="biome3" onclick="ToBiome(3, this.id)" value="Desert">
+            Desert
+            <img class="biome-image" src="data/img/forest.svg" />
+          </button>
+
+          <button class="gray-bg white-fg default-button biome-button flex-container" id="biome4" onclick="ToBiome(4, this.id)" value="Grassland">
+            Grassland
+            <img class="biome-image" src="data/img/forest.svg" />
+          </button>
+      </div>
+    </div>
+
+    <div class="full-width full-height flex-container" id="visual-page">
+      <h2 id="biome-heading">BIOME</h2>
+      <div class="flex-container-width full-width">
+        <div class="width3 flex-container">
+          <button class="gray-bg white-fg default-button sound-button" id="sound0" onclick="PlaySound(1, this.id)">Sound A</button>
+          <button class="gray-bg white-fg default-button sound-button" id="sound1" onclick="PlaySound(2, this.id)">Sound B</button>
+        </div>
+
+        <div class="width3 flex-container" id="spectrogram-area"></div>
+
+        <div class="width3 flex-container">
+          <button class="gray-bg white-fg default-button sound-button" id="sound2" onclick="PlaySound(3, this.id)">Sound C</button>
+          <button class="gray-bg white-fg default-button sound-button" id="sound3" onclick="PlaySound(4, this.id)">Sound D</button>
+        </div>
+      </div>
+
+      <div class="fixed-bottom full-width light-gray-bg timeline" id="timeline-base">
+        <div class="fixed-bottom gray-bg timeline" id="timeline-fill"></div>
+      </div>
+    </div>
+
+    <div class="full-width full-height flex-container" id="final-page">
+      <h2 class="final-heading">This sound can no longer be heard in nature</h2>
+      <h2 class="final-text">The species either already went extinct, or are critically engdangered</h2>
+      
+      <div class="flex-container-width full-width">
+        <button class="gray-bg white-fg default-button menu-button flex-container"onclick="ToMenu()">
+          Save image
         </button>
-      </div>
-      <div class="width3 flex-container" id="spectrogram-area">
-        
-      </div>
-      <div class="width3 flex-container">
-        <button class="gray-bg white-fg default-button" id="scene-a-sound-b" onclick="PlaySound(1)">
-          Sound B
+
+        <button class="gray-bg white-fg default-button menu-button flex-container"onclick="ToMenu()">
+          Listen again
         </button>
       </div>
     </div>
-    <div class="fixed-bottom full-width light-gray-bg timeline">
-      <div class="fixed-bottom gray-bg timeline" id="timeline-fill">
 
-      </div>
-    </div>
-  </div>
+    <script>
+      let intro = $("#intro-page");
+      let menu = $("#menu-page");
+      let visual = $("#visual-page");
+      let final = $("#final-page");
 
-  <script>
-    let intro = $("#intro-page")
-    let menu = $("#menu-page")
-    let game = $("#game-page")
-    
-    menu.hide()
-    game.hide()
+      menu.hide();
+      visual.hide();
+      final.hide();
 
-    function ToMenu(){
-      intro.hide()
-      menu.show()
-      game.hide()
-    }
+      function ToMenu() {
+        final.hide();
+        intro.hide();
+        menu.show();
+      }
 
-    function RunGame(biome){
-      menu.hide()
-      game.show()
-      setTimeout(Timer, 1000/24)
-      PlaySound(2, true)
-    }
-  </script>
-</body>
+      function ToBiome(biome, id) {
+        menu.hide();
+        visual.show();
 
+        ResetScene();
+
+        ChangeTitle(biome, id);
+        GeneratePoints();
+        SetBiome(biome);
+
+        setTimeout(Timer, 1000 / 24);
+        PlaySound(0, undefined, true);
+      }
+
+      function ToFinal() {
+        visual.hide();
+        final.show();
+      }
+
+      // Changes the title of vizualization page according to chosen biome
+      function ChangeTitle(biome, id) {
+        if (!document.getElementById) {
+          return;
+        }
+        var title = document.getElementById(id).value;
+
+        var biomeHeading = document.getElementById("biome-heading");
+        biomeHeading.firstChild.nodeValue = title.toUpperCase();
+      }
+
+      // Dynamically generates points on timeline and saves their x coordinates
+      function GeneratePoints() {
+        let margins = [40, 50, 75, 90];
+        let coords = [];
+
+        for (let i = 0; i < margins.length; i++) {
+          let point = document.createElement('div');
+
+          point.className = 'fixed-bottom timeline-point';
+          point.style.marginLeft = str(margins[i]) + "%";
+
+          document.getElementById("timeline-base").appendChild(point);
+
+          let coord = point.getBoundingClientRect().left + 5;
+          coords.push(coord);
+        }
+
+        SetPoints(coords);
+      }
+    </script>
+  </body>
 </html>

@@ -1,91 +1,159 @@
-let soundsA = []
+const BIOME_COUNT = 5;
+const SOUND_COUNT = 5;
 
+// Sounds per biome
+let sounds = [];
+const FOREST = ["ambient", "base.wav", "base.wav", "base.wav", "base.wav"];
+const SHRUBLAND = ["base.wav", "ambient", "ambient", "ambient", "ambient"];
+const SAVANNA = ["ambient", "base.wav", "base.wav", "base.wav", "base.wav"];
+const DESERT = ["ambient", "base.wav", "base.wav", "base.wav", "base.wav"];
+const GRASSLAND= ["ambient", "base.wav", "base.wav", "base.wav", "base.wav"];
 
-function setupSceneA() {
-  soundsA[0] = loadSound('data/hardy96a')
-  soundsA[1] = loadSound('data/ambient')
-  soundsA[2] = loadSound('data/base.wav')
+const PATHS = [FOREST, SHRUBLAND, SAVANNA, DESERT, GRASSLAND];
+
+// Setup each of the possible scenes beforehand
+function SetupScenes() {
+  for (let i = 0; i < BIOME_COUNT; i++) {
+    let sceneSounds = [];
+
+    for(let j = 0; j < SOUND_COUNT; j++) {
+      sceneSounds[j] = loadSound("data/sounds/" + PATHS[i][j]);
+    }
+    sounds.push(sceneSounds);
+  }
 }
+
+let cnv;
 
 function preload() {
-  soundFormats('mp3', 'wav')
+  soundFormats("mp3", "wav");
 
-  setupSceneA()
+  SetupScenes();
 }
-
-let cnv
 
 function setup() {
-  cnv = createCanvas(500, 500)
-  cnv.parent('spectrogram-area')
+  cnv = createCanvas(500, 500);
+  cnv.parent("spectrogram-area");
 
-
-  fft = new p5.FFT()
+  fft = new p5.FFT();
 }
 
-function DisableButton(id){
-  $("#"+id).prop('disabled', true)
+let activeBiome;
+let timelinePoints;
+
+function SetBiome(biome) {
+  activeBiome = biome;
 }
 
-function PlaySound(i, instant = false) {
-  if(!running && !instant)
-    return
-  soundsA[i].play()
+function SetPoints(points) {
+  timelinePoints = points;
 }
 
-let timer = 0
+function EnableButton(id) {
+  var style = getComputedStyle(document.body);
 
-let totalTime = 30
-let fps = 24
-let running = false
+  $("#" + id).css("backgroundColor", style.getPropertyValue('--gray'));
+  $("#" + id).prop("disabled", false);
+}
 
+function DisableButton(id) {
+  $("#" + id).prop("disabled", true);
+}
+
+function SetSelected(button, sound) {
+  // Get globals from CSS
+  var style = getComputedStyle(document.body);
+  
+  if (sounds[activeBiome][sound].isPlaying()) {
+    $("#" + button).css("backgroundColor", style.getPropertyValue('--light-gray'));
+  } 
+  else {
+    $("#" + button).css("backgroundColor", style.getPropertyValue('--gray'));
+  }
+}
+
+function PlaySound(sound, button = undefined, instant = false) {
+  if (!running && !instant) 
+    return;
+
+  // If the sound is not playing than play it, otherwise stop
+  if (!sounds[activeBiome][sound].isPlaying()) {
+    sounds[activeBiome][sound].play();
+  } 
+  else {
+    sounds[activeBiome][sound].stop();
+  }
+  // Mark button as selected or deselected
+  if (button) {
+    SetSelected(button, sound);
+  }
+}
+
+let timer;
+
+// Reset whole scene for listening again
+function ResetScene() {
+  timer = 0;
+
+  for (let i = 0; i < SOUND_COUNT - 1; i++) {
+    let id = "sound" + i;
+    EnableButton(id);
+  }
+  clear()
+}
+
+let totalTime = 30;
+let fps = 24;
+let running = false;
+
+let pointsReached = 0;
 
 function Timer() {
-  running = true
-  timer += 1/totalTime/fps
-  if(timer > 1){
-    timer = 1
-    soundsA[0].stop()
-    soundsA[1].stop()
-    soundsA[2].stop()
-    running = false
-  }
-  else{
-    let spectrum = fft.analyze()
+  running = true;
+  timer += 1 / totalTime / fps;
 
-    translate(width / 2, height / 2)
+  if (timer > 1) {
+    timer = 1;
+    running = false;
 
-    rotate((PI * 2 * timer - PI/2))
+    // Stop all sounds for active biome
+    for (let i = 0; i < SOUND_COUNT; i++) {
+      sounds[activeBiome][i].stop();
+    }
+    ToFinal()
+  } 
+  else {
+    let spectrum = fft.analyze();
 
-    noStroke()
+    translate(width / 2, height / 2);
+
+    rotate(PI * 2 * timer - PI / 2);
+
+    noStroke();
     for (let i = 0; i < spectrum.length; i++) {
-      let x = map(i, 0, spectrum.length, width/2 - 5, 0)
-      let h = map(spectrum[i], 0, 255, 255, 0)
-      fill(h, h, h)
-      rect(x, 0, width / spectrum.length, 2)
+      let x = map(i, 0, spectrum.length, width / 2 - 5, 0);
+      let h = map(spectrum[i], 0, 255, 255, 0);
+      fill(h, h, h);
+      rect(x, 0, width / spectrum.length, 2);
     }
 
-    setTimeout(Timer, 1000/fps)
+    setTimeout(Timer, 1000 / fps);
 
+    // Disabling of buttons
+    if (pointsReached < timelinePoints.length) {
+      if (window.innerWidth * timer > timelinePoints[pointsReached]) {
+        let id = "sound" + pointsReached;
 
-
-    //Dummy disabling of buttons
-    if(timer>0.5){
-      DisableButton("scene-a-sound-a")
+        DisableButton(id);
+        pointsReached++;
+      }
     }
-    if(timer > 0.75){
-      DisableButton("scene-a-sound-b")
-    }
-
   }
-  UpdateTimeline()
+  UpdateTimeline();
 }
 
-function UpdateTimeline(){
-  $("#timeline-fill").css('width', window.innerWidth * timer)
+function UpdateTimeline() {
+  $("#timeline-fill").css("width", window.innerWidth * timer);
 }
 
-
-function draw() {
-
-}
+function draw() {}
