@@ -3,7 +3,7 @@ const SOUND_COUNT = 5;
 
 // Sounds per biome
 let sounds = [];
-const FOREST = ["ambient", "base.wav", "base.wav", "base.wav", "base.wav"];
+const FOREST = ["forest/ambient_forest_v1.wav", "forest/eulemur_mongoz_v1.wav", "forest/gorilla_gorilla_v1.wav", "forest/mitu_mitu_v1.wav", "forest/pongo_pygmaeus_v1.wav"];
 const SHRUBLAND = ["base.wav", "ambient", "ambient", "ambient", "ambient"];
 const SAVANNA = ["ambient", "base.wav", "base.wav", "base.wav", "base.wav"];
 const DESERT = ["ambient", "base.wav", "base.wav", "base.wav", "base.wav"];
@@ -85,7 +85,7 @@ function PlaySound(sound, button = undefined, instant = false) {
   }
   // Mark button as selected or deselected
   if (button) {
-    SetSelected(button, sound);
+    //SetSelected(button, sound);
   }
 }
 
@@ -94,6 +94,7 @@ let timer;
 // Reset whole scene for listening again
 function ResetScene() {
   timer = 0;
+  pointsReached = 0;
 
   for (let i = 0; i < SOUND_COUNT - 1; i++) {
     let id = "sound" + i;
@@ -103,7 +104,7 @@ function ResetScene() {
 }
 
 let totalTime = 30;
-let fps = 24;
+let fps = 30;
 let running = false;
 
 let pointsReached = 0;
@@ -132,7 +133,7 @@ function Timer() {
     noStroke();
     for (let i = 0; i < spectrum.length; i++) {
       let x = map(i, 0, spectrum.length, width / 2 - 5, 0);
-      let h = map(spectrum[i], 0, 255, 255, 0);
+      let h = map(Math.pow(spectrum[i], .7), 0, 40, 255, 0);
       fill(h, h, h);
       rect(x, 0, width / spectrum.length, 2);
     }
