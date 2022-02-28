@@ -27,9 +27,10 @@
       <div class="flex-container-width full-width">
           <button class="gray-bg white-fg default-button biome-button flex-container" id="biome0" onclick="ToBiome(0, this.id)" value="Forest">
             Forest
-            <img class="white-fg biome-image" src="data/img/forest.svg" />
+            <!-- Attribution: https://freeicons.io/real-estate-icons-2/real%20estate-forest-icon-1610 -->
+            <img class="biome-image" src="data/img/forest.svg" />
           </button>
-          <!--
+          
           <button class="gray-bg white-fg default-button biome-button flex-container" id="biome1" onclick="ToBiome(1, this.id)" value="Shrubland">
             Shrubland
             <img class="biome-image" src="data/img/forest.svg" />
@@ -37,17 +38,19 @@
 
           <button class="gray-bg white-fg default-button biome-button flex-container" id="biome2" onclick="ToBiome(2, this.id)" value="Savanna">
             Savanna
-            <img class="biome-image" src="data/img/forest.svg" />
+            <!-- Attribution: https://www.svgrepo.com/svg/10831/tree -->
+            <img class="biome-image" src="data/img/savanna.svg" />
           </button>
 
           <button class="gray-bg white-fg default-button biome-button flex-container" id="biome4" onclick="ToBiome(4, this.id)" value="Grassland">
             Grassland
             <img class="biome-image" src="data/img/forest.svg" />
           </button>
--->
+
           <button class="gray-bg white-fg default-button biome-button flex-container" id="biome3" onclick="ToBiome(3, this.id)" value="Desert">
             Desert
-            <img class="biome-image" src="data/img/forest.svg" />
+            <!-- Attribution: https://www.svgrepo.com/svg/25733/cactus -->
+            <img class="biome-image" src="data/img/desert.svg" />
           </button>
       </div>
     </div>
@@ -56,15 +59,15 @@
       <h2 id="biome-heading">BIOME</h2>
       <div class="flex-container-width full-width">
         <div class="width3 flex-container">
-          <button class="gray-bg white-fg default-button sound-button" id="sound0" onclick="PlaySound(1, this.id)">Sound A</button>
-          <button class="gray-bg white-fg default-button sound-button" id="sound1" onclick="PlaySound(2, this.id)">Sound B</button>
+          <button class="gray-bg white-fg default-button sound-button" id="sound0" onclick="PlaySound(1, this.id)">Mongoose lemur</button>
+          <button class="gray-bg white-fg default-button sound-button" id="sound1" onclick="PlaySound(2, this.id)">Western gorilla</button>
         </div>
 
         <div class="width3 flex-container" id="spectrogram-area"></div>
 
         <div class="width3 flex-container">
-          <button class="gray-bg white-fg default-button sound-button" id="sound2" onclick="PlaySound(3, this.id)">Sound C</button>
-          <button class="gray-bg white-fg default-button sound-button" id="sound3" onclick="PlaySound(4, this.id)">Sound D</button>
+          <button class="gray-bg white-fg default-button sound-button" id="sound2" onclick="PlaySound(3, this.id)">Alagoas curassow</button>
+          <button class="gray-bg white-fg default-button sound-button" id="sound3" onclick="PlaySound(4, this.id)">Bornean orangutan</button>
         </div>
       </div>
 
@@ -74,11 +77,13 @@
     </div>
 
     <div class="full-width full-height flex-container" id="final-page">
-      <h2 class="final-heading">This sound can no longer be heard in nature</h2>
-      <h2 class="final-text">The species either already went extinct, or are critically engdangered</h2>
+      <h2 class="final-heading">THIS SOUND CAN NO LONGER BE HEARD IN THE WILD</h2>
+      <h2 class="final-text">All of the species either already went extinct, or are critically engdangered</h2>
+
+      <div class="flex-container" id="final-spectrogram-area"></div>
       
       <div class="flex-container-width full-width">
-        <button class="gray-bg white-fg default-button menu-button flex-container"onclick="ToMenu()">
+        <button class="gray-bg white-fg default-button menu-button flex-container"onclick="DownloadImage()">
           Save image
         </button>
 
@@ -98,12 +103,14 @@
       visual.hide();
       final.hide();
 
+      // Switch to biome menu
       function ToMenu() {
         final.hide();
         intro.hide();
         menu.show();
       }
 
+      // Switch to visualization page
       function ToBiome(biome, id) {
         menu.hide();
         visual.show();
@@ -117,7 +124,8 @@
         setTimeout(Timer, 1000 / 24);
         PlaySound(0, undefined, true);
       }
-
+      
+      // Switch to final page
       function ToFinal() {
         visual.hide();
         final.show();
@@ -137,21 +145,16 @@
       // Dynamically generates points on timeline and saves their x coordinates
       function GeneratePoints() {
         let margins = [40, 50, 75, 90];
-        let coords = [];
 
         for (let i = 0; i < margins.length; i++) {
           let point = document.createElement('div');
 
+          point.id = 'point' + i;
           point.className = 'fixed-bottom timeline-point';
           point.style.marginLeft = str(margins[i]) + "%";
 
           document.getElementById("timeline-base").appendChild(point);
-
-          let coord = point.getBoundingClientRect().left + 5;
-          coords.push(coord);
         }
-
-        SetPoints(coords);
       }
     </script>
   </body>
