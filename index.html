@@ -7,16 +7,24 @@
 
     <link rel="stylesheet" href="style.css" />
 
+    <!--Libraties-->
     <script src="lib/p5.js"></script>
     <script src="lib/p5.sound.js"></script>
     <script src="lib/jquery.min.js"></script>
 
-    <script src="sketch.js"></script>
+    <!--Scripts-->
+    <script src="script/_settings.js"></script>
+    <script src="script/exporter.js"></script>
+    <script src="script/visualisation.js"></script>
+    <script src="script/misc.js"></script>
 
-    <script src="misc.js"></script>
   </head>
 
   <body>
+    <div class="full-width full-height flex-container" id="loading-page">
+      <h2 id="loading-progress">00%</h2>
+    </div>
+
     <div class="full-width full-height flex-container" id="intro-page">
       <h1>THE SOUND OF EXTINCTION</h1>
       <button class="gray-bg white-fg default-button" id="to-menu-button" onclick="ToMenu()">Continue</button>
@@ -77,69 +85,6 @@
       </div>
     </div>
 
-    <script>
-      let intro = $("#intro-page");
-      let menu = $("#menu-page");
-      let visual = $("#visual-page");
-      let final = $("#final-page");
-
-      menu.hide();
-      visual.hide();
-      final.hide();
-
-      // Switch to biome menu
-      function ToMenu() {
-        final.hide();
-        intro.hide();
-        menu.show();
-      }
-
-      // Switch to visualization page
-      function ToBiome(biome, id) {
-        menu.hide();
-        visual.show();
-
-        ResetScene();
-
-        ChangeTitle(biome, id);
-        GeneratePoints();
-        SetBiome(biome);
-
-        setTimeout(Timer, 1000 / 24);
-        PlaySound(0, undefined, true);
-      }
-      
-      // Switch to final page
-      function ToFinal() {
-        visual.hide();
-        final.show();
-      }
-
-      // Changes the title of vizualization page according to chosen biome
-      function ChangeTitle(biome, id) {
-        if (!document.getElementById) {
-          return;
-        }
-        var title = document.getElementById(id).value;
-
-        var biomeHeading = document.getElementById("biome-heading");
-        biomeHeading.firstChild.nodeValue = title.toUpperCase();
-      }
-
-      // Dynamically generates points on timeline and saves their x coordinates
-      function GeneratePoints() {
-        let margins = [40, 50, 75, 90];
-
-        for (let i = 0; i < margins.length; i++) {
-          let point = document.createElement('div');
-
-          point.id = 'point' + i;
-          point.className = 'fixed-bottom timeline-point';
-          point.style.marginLeft = str(margins[i]) + "%";
-
-          document.getElementById("timeline-base").appendChild(point);
-        }
-      }
-    </script>
+    <script src="script/controller.js"></script>
   </body>
 </html>
