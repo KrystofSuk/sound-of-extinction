@@ -1,6 +1,8 @@
 const BIOME_COUNT = 5;
 const SOUND_COUNT = 5;
 
+const RENDER_SIZE = 2048;
+
 // Sounds per biome
 let sounds = [];
 const FOREST = ["forest/ambient_forest_v1.wav", "forest/eulemur_mongoz_v1.wav", "forest/gorilla_gorilla_v1.wav", "forest/mitu_mitu_v1.wav", "forest/pongo_pygmaeus_v1.wav"];

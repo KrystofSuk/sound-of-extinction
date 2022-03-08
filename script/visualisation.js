@@ -4,12 +4,13 @@ let cnv;
 let timer;
 
 let totalTime = 30;
-let fps = 30;
+let fps = 120;
 let running = false;
 
 let pointsReached = 0;
 
 let img;
+let pg;
 
 // Set active biome and label buttons
 let activeBiome;
@@ -54,6 +55,9 @@ function preload() {
 function setup() {
     cnv = createCanvas(document.documentElement.clientWidth / 3, document.documentElement.clientWidth / 3);
     cnv.parent("spectrogram-area");
+
+    
+    pg = createGraphics(RENDER_SIZE, RENDER_SIZE);
 
     fft = new p5.FFT();
 }
@@ -140,7 +144,7 @@ function PlaySound(sound, button = undefined, instant = false) {
 
 // Save created spectrogram
 function DownloadImage() {
-    saveCanvas("image", "png");
+    pg.save("image.png");
 }
 
 
@@ -187,16 +191,16 @@ function Timer() {
     } else {
         let spectrum = fft.analyze();
 
-        translate(width / 2, height / 2);
-        rotate(PI * 2 * timer - PI / 2);
+        pg.translate(RENDER_SIZE / 2, RENDER_SIZE / 2);
+        pg.rotate(PI * 2 * timer - PI / 2);
 
-        noStroke();
+        pg.noStroke();
 
         for (let i = 0; i < spectrum.length; i++) {
-            let x = map(i, 0, spectrum.length, width / 2 - 5, 0);
+            let x = map(i, 0, spectrum.length, RENDER_SIZE / 2 - 5, 0);
             let h = map(Math.pow(spectrum[i], .7), 0, 40, 255, 0);
-            fill(h, h, h);
-            rect(x, 0, width / spectrum.length, 2);
+            pg.fill(h, h, h);
+            pg.rect(x, 0, RENDER_SIZE / spectrum.length, 1);
         }
         setTimeout(Timer, 1000 / fps);
 
@@ -214,10 +218,12 @@ function Timer() {
                 pointsReached++;
             }
         }
+        pg.rotate(-(PI * 2 * timer - PI / 2));
+        pg.translate(-RENDER_SIZE / 2, -RENDER_SIZE / 2);
     }
     UpdateTimeline();
 }
 
 function draw() {
-
+    image(pg, 0, 0, width, height);
 }
