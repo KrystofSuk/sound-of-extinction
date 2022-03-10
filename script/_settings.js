@@ -1,7 +1,7 @@
 const BIOME_COUNT = 5;
 const SOUND_COUNT = 5;
 
-const RENDER_SIZE = 2048;
+const RENDER_SIZE = 4096;
 
 // Sounds per biome
 let sounds = [];

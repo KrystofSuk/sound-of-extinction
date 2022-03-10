@@ -1,0 +1,62 @@
+.font-72{
+  font-size: 72px;
+}
+
+.font-64{
+  font-size: 64px;
+}
+
+.font-44{
+  font-size: 44px;
+}
+
+.font-36{
+  font-size: 36px;
+}
+
+.font-28{
+  font-size: 28px;
+}
+
+.font-light{
+  font-family: Inter-Regular;
+  font-weight: lighter;
+}
+
+.font-regular{
+  font-family: Inter-Regular;
+  font-weight: initial;
+}
+
+.font-bold{
+  font-family: Inter-Regular;
+  font-weight: bold;
+}
+
+.font-bolder{
+  font-family: Inter-Bold;
+}
+
+.letter-space-5{
+  letter-spacing: 5px;
+}
+
+.letter-space-10{
+  letter-spacing: 10px;
+}
+
+.letter-space-20{
+  letter-spacing: 20px;
+}
+
+.line-height-medium{
+  line-height: 2.5;
+}
+
+.mb-8{
+  margin-bottom: 8vh;
+}
+
+.mb-3{
+  margin-bottom: 3vh;
+}

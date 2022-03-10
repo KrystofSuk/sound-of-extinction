@@ -4,10 +4,13 @@ let cnv;
 let timer;
 
 let totalTime = 30;
-let fps = 120;
+let fps = 60;
+
 let running = false;
 
 let pointsReached = 0;
+
+let visualisationSize = RENDER_SIZE / 2 - 5;
 
 let img;
 let pg;
@@ -53,7 +56,7 @@ function preload() {
 }
 
 function setup() {
-    cnv = createCanvas(document.documentElement.clientWidth / 3, document.documentElement.clientWidth / 3);
+    cnv = createCanvas(640, 640);
     cnv.parent("spectrogram-area");
 
     
@@ -66,13 +69,13 @@ function windowResized() {
     let minDimension = min(document.documentElement.clientHeight, document.documentElement.clientWidth - 100)
 
     if (running) {
+        resizeCanvas(640, 640)
         // Responsive canvas while drawing
         // img = cnv.get();
         // cnv = createCanvas(document.documentElement.clientWidth / 3, document.documentElement.clientWidth/ 3);
         // image(img, 0, 0, document.documentElement.clientWidth / 3, document.documentElement.clientWidth/ 3)
     } else {
-        resizeCanvas(minDimension / 2, minDimension / 2);
-        image(img, 0, 0, minDimension / 2, minDimension / 2)
+        resizeCanvas(508, 719)
     }
 
 }
@@ -90,7 +93,12 @@ function SetBiome(biome) {
 
 // Update timeline progress
 function UpdateTimeline() {
+    let angle = timer/1*360+.1
+
     $("#timeline-fill").css("width", window.innerWidth * timer);
+    $("#timeline-rotational-fill").css("background",
+    "conic-gradient(var(--gray)"+angle+"deg, transparent "+angle+"deg 360deg)"
+    );
 }
 
 // Enable button specified by id
@@ -126,6 +134,7 @@ function PlaySound(sound, button = undefined, instant = false) {
     if (!sounds[activeBiome][sound].isPlaying() && !instant) {
         sounds[activeBiome][sound].play();
     } else if (!sounds[activeBiome][sound].isPlaying() && instant) {
+        sounds[activeBiome][sound].play();
         sounds[activeBiome][sound].loop();
     } else {
         sounds[activeBiome][sound].stop();
@@ -159,15 +168,16 @@ function ResetScene() {
         let id = "sound" + i;
         EnableButton(id);
     }
-    clear()
+    //clear()
 }
 
 // Main visualization loop
 function Timer() {
+    
     running = true;
     timer += 1 / totalTime / fps;
 
-    if (timer > 1.005) {
+    if (timer >= 1) {
 
         timer = 1;
         running = false;
@@ -186,22 +196,39 @@ function Timer() {
 
             cnv.parent("final-spectrogram-area");
             windowResized();
+            sounds[activeBiome][0].stop();
         }, 3000);
 
     } else {
+
         let spectrum = fft.analyze();
 
         pg.translate(RENDER_SIZE / 2, RENDER_SIZE / 2);
-        pg.rotate(PI * 2 * timer - PI / 2);
 
-        pg.noStroke();
+        let angle = PI * 2 * timer - PI / 2;
+        let nextAngle = PI * 2 * (timer + 1 / totalTime / fps) - PI / 2;
+        let diff = nextAngle - angle
+        let weight = visualisationSize / spectrum.length + 2       
+
+        pg.rotate(angle);
 
         for (let i = 0; i < spectrum.length; i++) {
-            let x = map(i, 0, spectrum.length, RENDER_SIZE / 2 - 5, 0);
+            
+            let x = map(i, 0, spectrum.length, visualisationSize, 0);
             let h = map(Math.pow(spectrum[i], .7), 0, 40, 255, 0);
-            pg.fill(h, h, h);
-            pg.rect(x, 0, RENDER_SIZE / spectrum.length, 1);
+            //pg.fill(h, h, h);
+            //pg.rect(x, 0, RENDER_SIZE / spectrum.length, 4);
+
+            let lenght = diff
+            
+
+            pg.stroke(h, h, h, 255)
+            pg.strokeCap(PROJECT)
+
+            pg.strokeWeight(weight);
+            pg.arc(0, 0, x * 2, x * 2, 0, lenght);
         }
+
         setTimeout(Timer, 1000 / fps);
 
         // Disabling of buttons
@@ -222,6 +249,8 @@ function Timer() {
         pg.translate(-RENDER_SIZE / 2, -RENDER_SIZE / 2);
     }
     UpdateTimeline();
+    
+    resizeCanvas(640, 640)
 }
 
 function draw() {

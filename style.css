@@ -16,6 +16,7 @@
 :root {
   --gray: #6b6b6b;
   --light-gray: #aaaaaa;
+  --dark-gray: #444444;
   --white: #ffffff;
   --black: #000000;
 }
@@ -36,6 +37,10 @@ body {
   padding: 0;
   margin: 0;
   font-family: Inter-Regular;
+}
+
+.dark-bg {
+  background-color: var(--dark-gray);
 }
 
 .gray-bg {
@@ -75,38 +80,48 @@ body {
 
 .default-button {
   border-radius: 10px;
-  width: 25vw;
-  max-width: 300px;
-  min-height: 30px;
+  min-width: 260px;
+  min-height: 80px;
   text-align: center;
   outline: none;
   border: none;
-  font-size: 2vw;
-  font-size: max(11px, 2vw);
-  font-family: Inter-Light;
-  padding: 1vw;
-  margin-top: 2vw;
-  margin-bottom: 2vw;
+  font-size: 28px;
+  font-family: Inter-Regular;
+  letter-spacing: 3px;
+
+  filter: drop-shadow(0px 4px 4px #00000033);
 }
 
-.default-button:hover {
+button:hover {
   background-color: var(--light-gray);
 }
 
-.default-button:disabled {
+button:disabled {
   background-color: var(--white) !important;
+  filter: drop-shadow(0px 4px 4px #00000000);
   pointer-events: none;
 }
 
+
+
 .biome-button {
-  width: 13vw;
-  max-height: 15vw;
-  padding: 30px 10px 30px 10px;
+  min-width: 140px;
+  min-height: 194px;
+  padding: 10px 20px 25px 20px;
   margin-right: 2vw;
 }
 
+.sound-button {
+  padding: 10px 20px 10px 20px;
+  font-size: 22px;
+  margin-left: 10px;
+  margin-right: 10px;
+  min-height: 60px;
+}
+
 .biome-image {
-  width: 9vw;
+  width: auto;
+  padding: 10px;
   filter: invert(100%);
 }
 
@@ -116,20 +131,11 @@ body {
   font-family: Inter-Bold;
 }
 
-.sound-button {
-  margin-top: 2vw;
-  margin-bottom: 3vw;
-  font-size: max(11px, 1.8vw);
-}
-
 .menu-button {
   margin-left: 1.5vw;
   margin-right: 1.5vw;
 }
 
-.width3 {
-  width: 33%;
-}
 
 .fixed-bottom {
   position: absolute;
@@ -148,31 +154,109 @@ body {
 
 h1,
 h2 {
-  font-size: 5vw;
   font-style: normal;
   font-weight: 400;
-  line-height: 5vw;
   letter-spacing: 0em;
   text-align: center;
   margin-top: 0;
-  margin-bottom: 4vw;
 }
 
-.final-heading {
-  font-size: max(22px, 3vw);
-  margin-top: 4vw;
-  margin-left: 2vw;
-  margin-right: 2vw;
-  margin-bottom: 0;
-}
-
-.final-text {
-  font-size: max(12px, 1.8vw);
-  margin-bottom: 1vw;
-  margin-top: 0vw;
+#to-menu-button{
+  margin-top: 30px;
 }
 
 
 #p5_loading{
   display: none;
+}
+
+#loading-progress{
+  font-size: 44px;
+}
+
+#spectrogram-area{
+  width: 100%;
+}
+
+#control-area{
+  width: 100%;
+}
+
+#timeline-rotational{
+  width: 660px;
+  height: 660px;
+  background: var(--light-gray);
+  position: absolute;
+  border-radius: 50%;
+  z-index: -8;
+}
+
+#timeline-rotational-fill{
+  width: 660px;
+  height: 660px;
+  background: conic-gradient(var(--gray) 0deg, transparent 0deg 360deg);
+  position: absolute;
+  border-radius: 50%;
+  z-index: -3;
+}
+
+.timeline-rotational-point{
+  width: 660px;
+  height: 660px;
+  background: conic-gradient(var(--black) 2deg, transparent 2deg 360deg);
+  position: absolute;
+  border-radius: 50%;
+  transform: rotate(20deg);
+  z-index: -2;
+}
+
+#timeline-clear{
+  width: 638px;
+  height: 638px;
+  top: 11px;
+  left: 11px;
+  background-color: #fff;
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.dot-button{
+  width: 20px;
+  height: 20px;
+  background: var(--light-gray);
+  border-radius: 50%;
+  outline: none;
+  border: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  
+  filter: drop-shadow(0px 4px 4px #00000033);
+}
+
+.arrow-button{
+  width: 22px;
+  height: 144px;
+  outline: none;
+  border: none;
+  position: absolute;
+  background: transparent!important;
+  
+  filter: drop-shadow(0px 4px 4px #00000033);
+}
+
+#left-arrow{
+  left: calc(50% - 326px);
+}
+#right-arrow{
+  right: calc(50% - 326px);
+}
+
+.arrow-button>img{
+  width: 22px;
+  height: 144px;
+}
+
+#final-spectrogram-area canvas{
+  filter: drop-shadow(0px 4px 4px #00000033);
 }

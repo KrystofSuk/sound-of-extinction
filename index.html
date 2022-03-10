@@ -1,90 +1,136 @@
 <!DOCTYPE html>
 <html lang="">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1.0, user-scalable=0"/>
-    <title>The sound of extinction</title>
 
-    <link rel="stylesheet" href="style.css" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1.0, user-scalable=0" />
+  <title>The sound of extinction</title>
 
-    <!--Libraties-->
-    <script src="lib/p5.js"></script>
-    <script src="lib/p5.sound.js"></script>
-    <script src="lib/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="presets.css" />
 
-    <!--Scripts-->
-    <script src="script/_settings.js"></script>
-    <script src="script/exporter.js"></script>
-    <script src="script/visualisation.js"></script>
-    <script src="script/misc.js"></script>
+  <!--Libraties-->
+  <script src="lib/p5.js"></script>
+  <script src="lib/p5.sound.js"></script>
+  <script src="lib/jquery.min.js"></script>
 
-  </head>
+  <!--Scripts-->
+  <script src="script/_settings.js"></script>
+  <script src="script/exporter.js"></script>
+  <script src="script/visualisation.js"></script>
+  <script src="script/misc.js"></script>
 
-  <body>
-    <div class="full-width full-height flex-container" id="loading-page">
-      <h2 id="loading-progress">00%</h2>
+</head>
+
+<body>
+  <div class="full-width full-height flex-container" id="loading-page">
+
+    <h2 id="loading-progress" class="font-36 font-bold letter-space-10">00%</h2>
+
+  </div>
+
+  <div class="full-width full-height flex-container" id="intro-page">
+
+    <h1 class="font-72 font-bolder letter-space-20">SOUND<br><span class="font-36 letter-space-10 line-height-medium font-bold">of</span><br>EXTINCTION</h1>
+
+    <button class="dark-bg white-fg default-button" id="to-menu-button" onclick="ToMenu()">CONTINUE</button>
+  </div>
+
+  <div class="full-width full-height flex-container" id="menu-page">
+
+    <h2 class="font-64 letter-space-20 font-bolder mb-8">CHOOSE BIOME</h2>
+
+    <div class="flex-container-width full-width">
+
+      <button class="dark-bg white-fg default-button biome-button flex-container" id="biome0" onclick="ToBiome(0, this.id)" value="Forest">
+        <!-- Attribution: https://freeicons.io/real-estate-icons-2/real%20estate-forest-icon-1610 -->
+        <img class="biome-image" src="data/img/forest.svg" />
+
+        FOREST
+
+      </button>
+
+      <button class="dark-bg white-fg default-button biome-button flex-container" id="biome3" onclick="ToBiome(3, this.id)" value="Desert">
+
+        <!-- Attribution: https://www.svgrepo.com/svg/25733/cactus -->
+        <img class="biome-image" src="data/img/desert.svg" />
+
+        DESERT
+
+      </button>
+
     </div>
+  </div>
 
-    <div class="full-width full-height flex-container" id="intro-page">
-      <h1>THE SOUND OF EXTINCTION</h1>
-      <button class="gray-bg white-fg default-button" id="to-menu-button" onclick="ToMenu()">Continue</button>
-    </div>
+  <div class="full-width full-height flex-container" id="visual-page">
+    <div class="flex-container full-width">
+      <div class="flex-container mb-8" id="spectrogram-area">
+        <div id="timeline-rotational">
+          <div id="timeline-rotational-fill">
+          </div>
 
-    <div class="full-width full-height flex-container" id="menu-page">
-      <h2>CHOOSE BIOME</h2>
-      <div class="flex-container-width full-width">
-          <button class="gray-bg white-fg default-button biome-button flex-container" id="biome0" onclick="ToBiome(0, this.id)" value="Forest">
-            Forest
-            <!-- Attribution: https://freeicons.io/real-estate-icons-2/real%20estate-forest-icon-1610 -->
-            <img class="biome-image" src="data/img/forest.svg" />
-          </button>
-          
-          <button class="gray-bg white-fg default-button biome-button flex-container" id="biome3" onclick="ToBiome(3, this.id)" value="Desert">
-            Desert
-            <!-- Attribution: https://www.svgrepo.com/svg/25733/cactus -->
-            <img class="biome-image" src="data/img/desert.svg" />
-          </button>
-      </div>
-    </div>
+          <div id="timeline-clear">
 
-    <div class="full-width full-height flex-container" id="visual-page">
-      <h2 id="biome-heading">BIOME</h2>
-      <div class="flex-container-width full-width">
-        <div class="width3 flex-container">
-          <button class="gray-bg white-fg default-button sound-button" id="sound0" onclick="PlaySound(1, this.id)">Mongoose lemur</button>
-          <button class="gray-bg white-fg default-button sound-button" id="sound1" onclick="PlaySound(2, this.id)">Western gorilla</button>
+          </div>
         </div>
-
-        <div class="width3 flex-container" id="spectrogram-area"></div>
-
-        <div class="width3 flex-container">
-          <button class="gray-bg white-fg default-button sound-button" id="sound2" onclick="PlaySound(3, this.id)">Alagoas curassow</button>
-          <button class="gray-bg white-fg default-button sound-button" id="sound3" onclick="PlaySound(4, this.id)">Bornean orangutan</button>
-        </div>
       </div>
 
-      <div class="fixed-bottom full-width light-gray-bg timeline" id="timeline-base">
-        <div class="fixed-bottom gray-bg timeline" id="timeline-fill"></div>
-      </div>
-    </div>
+      <div class="flex-container-width" id="control-area">
 
-    <div class="full-width full-height flex-container" id="final-page">
-      <h2 class="final-heading">THIS SOUND CAN NO LONGER BE HEARD IN THE WILD</h2>
-      <h2 class="final-text">All of the species either already went extinct, or are critically engdangered</h2>
+        <button class="dark-bg white-fg default-button sound-button" id="sound0" onclick="PlaySound(1, this.id)">Mongoose lemur</button>
 
-      <div class="flex-container" id="final-spectrogram-area"></div>
-      
-      <div class="flex-container-width full-width">
-        <button class="gray-bg white-fg default-button menu-button flex-container"onclick="DownloadImage()">
-          Save image
-        </button>
+        <button class="dark-bg white-fg default-button sound-button" id="sound1" onclick="PlaySound(2, this.id)">Western gorilla</button>
 
-        <button class="gray-bg white-fg default-button menu-button flex-container"onclick="ToMenu()">
-          Listen again
-        </button>
+        <button class="dark-bg white-fg default-button sound-button" id="sound2" onclick="PlaySound(3, this.id)">Alagoas curassow</button>
+
+        <button class="dark-bg white-fg default-button sound-button" id="sound3" onclick="PlaySound(4, this.id)">Bornean orangutan</button>
+
       </div>
     </div>
 
-    <script src="script/controller.js"></script>
-  </body>
+    <div class="fixed-bottom full-width light-gray-bg timeline" id="timeline-base" style="opacity: 0">
+
+      <div class="fixed-bottom gray-bg timeline" id="timeline-fill"></div>
+
+    </div>
+  </div>
+
+  <div class="full-width full-height flex-container" id="message-page">
+
+    <h2 class="final-heading font-44 font-regular letter-space-5 mb-8">This sound of <span id="final-biome">rain forest</span><br>won’t ever be heard in nature</h2>
+
+    <h2 class="final-text font-44 font-regular letter-space-5">All of the species you’ve heard either<br>
+      went <span class="font-bolder">EXTINCT</span> or are near the <span  class="font-bolder">EXTINCTION!</span>
+    </h2>
+
+  </div>
+
+  <div class="full-width full-height flex-container" id="final-page">
+
+
+    <div class="flex-container mb-3" id="final-spectrogram-area">
+      <button id="left-arrow" class="arrow-button"><img src="data/img/arrow.png"></button>   
+      <button id="right-arrow" class="arrow-button"><img src="data/img/arrow_r.png"></button>   
+    </div>
+
+    <div class="flex-container-width full-width mb-3">
+      <button class="dot-button"></button>   
+      <button class="dot-button"></button>   
+      <button class="dot-button"></button>    
+    </div>
+
+    <div class="flex-container-width full-width">
+      <button class="dark-bg white-fg default-button menu-button flex-container" onclick="DownloadImage()">
+        DOWNLOAD
+      </button>
+
+      <button class="gray-bg white-fg default-button menu-button flex-container" onclick="ToMenu()">
+        MENU
+      </button>
+    </div>
+  </div>
+
+  <script src="script/controller.js"></script>
+</body>
+
 </html>
