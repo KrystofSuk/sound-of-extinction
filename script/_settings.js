@@ -3,6 +3,9 @@ const SOUND_COUNT = 5;
 
 const RENDER_SIZE = 4096;
 
+let totalTime = 1;
+let fps = 60;
+
 // Sounds per biome
 let sounds = [];
 const FOREST = ["forest/ambient_forest_v1.wav", "forest/eulemur_mongoz_v1.wav", "forest/gorilla_gorilla_v1.wav", "forest/mitu_mitu_v1.wav", "forest/pongo_pygmaeus_v1.wav"];
@@ -21,3 +24,4 @@ const DESERT_NAMES = ["Black Rhinoceros", "White-backed Vulture", "Scimitar-horn
 const GRASSLAND_NAMES = ["Animal", "Animal", "Animal", "Animal"];
 
 const NAMES = [FOREST_NAMES, SHRUBLAND_NAMES, SAVANNA_NAMES, DESERT_NAMES, GRASSLAND_NAMES];
+const SCENE_NAMES = ["rain forest", "shrublands", "savanna", "desert", "grass fields"]

@@ -97,8 +97,6 @@ button:hover {
 }
 
 button:disabled {
-  background-color: var(--white) !important;
-  filter: drop-shadow(0px 4px 4px #00000000);
   pointer-events: none;
 }
 
@@ -117,6 +115,7 @@ button:disabled {
   margin-left: 10px;
   margin-right: 10px;
   min-height: 60px;
+  background: linear-gradient(to right, var(--dark-gray) 100%, var(--light-gray) 0%);
 }
 
 .biome-image {
@@ -234,9 +233,17 @@ h2 {
   filter: drop-shadow(0px 4px 4px #00000033);
 }
 
+.dot-button:hover{
+  background: var(--gray);
+}
+
+.dot-active{
+  background: var(--dark-gray)!important;
+}
+
 .arrow-button{
-  width: 22px;
-  height: 144px;
+  width: 80px;
+  height: 200px;
   outline: none;
   border: none;
   position: absolute;
@@ -246,10 +253,10 @@ h2 {
 }
 
 #left-arrow{
-  left: calc(50% - 326px);
+  left: calc(50% - 356px);
 }
 #right-arrow{
-  right: calc(50% - 326px);
+  right: calc(50% - 356px);
 }
 
 .arrow-button>img{
@@ -259,4 +266,8 @@ h2 {
 
 #final-spectrogram-area canvas{
   filter: drop-shadow(0px 4px 4px #00000033);
+}
+
+.hidden{
+  display: none;
 }

@@ -3,9 +3,6 @@ let cnv;
 
 let timer;
 
-let totalTime = 30;
-let fps = 60;
-
 let running = false;
 
 let pointsReached = 0;
@@ -13,7 +10,7 @@ let pointsReached = 0;
 let visualisationSize = RENDER_SIZE / 2 - 5;
 
 let img;
-let pg;
+var pg;
 
 // Set active biome and label buttons
 let activeBiome;
@@ -49,7 +46,6 @@ function SetupScenes() {
     }
 }
 
-
 function preload() {
     soundFormats("mp3", "wav");
     SetupScenes();
@@ -59,7 +55,7 @@ function setup() {
     cnv = createCanvas(640, 640);
     cnv.parent("spectrogram-area");
 
-    
+
     pg = createGraphics(RENDER_SIZE, RENDER_SIZE);
 
     fft = new p5.FFT();
@@ -70,12 +66,6 @@ function windowResized() {
 
     if (running) {
         resizeCanvas(640, 640)
-        // Responsive canvas while drawing
-        // img = cnv.get();
-        // cnv = createCanvas(document.documentElement.clientWidth / 3, document.documentElement.clientWidth/ 3);
-        // image(img, 0, 0, document.documentElement.clientWidth / 3, document.documentElement.clientWidth/ 3)
-    } else {
-        resizeCanvas(508, 719)
     }
 
 }
@@ -93,11 +83,11 @@ function SetBiome(biome) {
 
 // Update timeline progress
 function UpdateTimeline() {
-    let angle = timer/1*360+.1
+    let angle = timer / 1 * 360 + .1
 
     $("#timeline-fill").css("width", window.innerWidth * timer);
     $("#timeline-rotational-fill").css("background",
-    "conic-gradient(var(--gray)"+angle+"deg, transparent "+angle+"deg 360deg)"
+        "conic-gradient(var(--gray)" + angle + "deg, transparent " + angle + "deg 360deg)"
     );
 }
 
@@ -105,13 +95,33 @@ function UpdateTimeline() {
 function EnableButton(id) {
     var style = getComputedStyle(document.body);
 
-    $("#" + id).css("backgroundColor", style.getPropertyValue('--gray'));
+
+    $("#" + id).css("background",
+        "linear-gradient(to right, var(--dark-gray) 100%, var(--light-gray) 0%)"
+    );
+
     $("#" + id).prop("disabled", false);
+    $("#" + id).css("opacity", 1);
 }
 
 // Disable button specifed by id
 function DisableButton(id) {
     $("#" + id).prop("disabled", true);
+    $("#" + id).animate({opacity: "0"}, 500)
+}
+
+function ProgressButton(button, sound) {
+
+    let percentage = sounds[activeBiome][sound].currentTime() / sounds[activeBiome][sound].duration() * 100
+
+    $("#" + button).css("background",
+        "linear-gradient(to right, var(--dark-gray)" + percentage + "%, var(--light-gray) " + percentage + "%)"
+    );
+
+    if (sounds[activeBiome][sound].isPlaying())
+        setTimeout(() => {
+            ProgressButton(button, sound)
+        }, 1000 / 60)
 }
 
 // Mark button as active
@@ -120,9 +130,20 @@ function SetSelected(button, sound) {
     var style = getComputedStyle(document.body);
 
     if (sounds[activeBiome][sound].isPlaying()) {
-        $("#" + button).css("backgroundColor", style.getPropertyValue('--light-gray'));
+        //$("#" + button).css("backgroundColor", style.getPropertyValue('--light-gray'));
+
+        $("#" + button).css("background",
+            "linear-gradient(to right, var(--dark-gray) 50%, var(--light-gray) 50%)"
+        );
+
+        ProgressButton(button, sound)
     } else {
-        $("#" + button).css("backgroundColor", style.getPropertyValue('--gray'));
+        //$("#" + button).css("backgroundColor", style.getPropertyValue('--dark-gray'));
+
+        $("#" + button).css("background",
+            "linear-gradient(to right, var(--dark-gray) 100%, var(--light-gray) 0%)"
+        );
+
     }
 }
 
@@ -143,18 +164,13 @@ function PlaySound(sound, button = undefined, instant = false) {
     if (button) {
         SetSelected(button, sound);
 
-        console.log(sounds[activeBiome][sound].duration() * 1000 + 100)
         setTimeout(() => {
             SetSelected(button, sound);
             console.log("hey")
-        }, sounds[activeBiome][sound].duration() * 1000 + 100)
+        }, sounds[activeBiome][sound].duration() * 1000 + 300)
     }
 }
 
-// Save created spectrogram
-function DownloadImage() {
-    pg.save("image.png");
-}
 
 
 // Reset whole scene for listening again
@@ -162,18 +178,21 @@ function ResetScene() {
     timer = 0;
     pointsReached = 0;
 
-    cnv.parent("spectrogram-area");
+    UpdateTimeline();
+
+    //cnv.parent("spectrogram-area");
 
     for (let i = 0; i < SOUND_COUNT - 1; i++) {
         let id = "sound" + i;
         EnableButton(id);
     }
-    //clear()
+    pg.clear()
+    cnv.clear()
 }
 
 // Main visualization loop
 function Timer() {
-    
+    console.log("x")
     running = true;
     timer += 1 / totalTime / fps;
 
@@ -190,11 +209,15 @@ function Timer() {
         // Wait for a few seconds until sound has faded out
         setTimeout(function () {
             // Save canvas in order to redraw
-            img = cnv.get();
+            img = pg.get();
+
+            for (let p = 0; p < posters.length; p++) {
+                posters[p].copyVisualisation(img, p*50);
+            }
 
             ToFinal();
 
-            cnv.parent("final-spectrogram-area");
+            //cnv.parent("final-spectrogram-area");
             windowResized();
             sounds[activeBiome][0].stop();
         }, 3000);
@@ -208,19 +231,19 @@ function Timer() {
         let angle = PI * 2 * timer - PI / 2;
         let nextAngle = PI * 2 * (timer + 1 / totalTime / fps) - PI / 2;
         let diff = nextAngle - angle
-        let weight = visualisationSize / spectrum.length + 2       
+        let weight = visualisationSize / spectrum.length + 2
 
         pg.rotate(angle);
 
         for (let i = 0; i < spectrum.length; i++) {
-            
+
             let x = map(i, 0, spectrum.length, visualisationSize, 0);
             let h = map(Math.pow(spectrum[i], .7), 0, 40, 255, 0);
             //pg.fill(h, h, h);
             //pg.rect(x, 0, RENDER_SIZE / spectrum.length, 4);
 
             let lenght = diff
-            
+
 
             pg.stroke(h, h, h, 255)
             pg.strokeCap(PROJECT)
@@ -249,8 +272,6 @@ function Timer() {
         pg.translate(-RENDER_SIZE / 2, -RENDER_SIZE / 2);
     }
     UpdateTimeline();
-    
-    resizeCanvas(640, 640)
 }
 
 function draw() {

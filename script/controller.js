@@ -41,19 +41,80 @@ function ToBiome(biome, id) {
     for (let i = 0; i < SOUND_COUNT; i++) {
         sounds[activeBiome][i].setVolume(1, 0, 0);
     }
-
 }
 
 // Switch to final page
 function ToFinal() {
+    $("#final-biome").html(SCENE_NAMES[activeBiome])
+
     menu.hide();
     visual.hide();
     message.show();
+    
+    $("#dots").html("")
+    for (let index = 0; index < posters.length; index++) {
+        $("#dots").append('<button onclick="DisplayPosterID(' + index + ')" class="dot-button" id="dot' + index + '"></button>')
+    }
+
 
     setTimeout(() => {
         message.hide();
+
+        DisplayPosterID(0)
+
+
         final.show();
-    }, 1000)
+    }, 100)
+}
+
+
+function DisplayPoster(direction) {
+    posters[currentPoster].hide()
+    $("#dot" + currentPoster).removeClass("dot-active")
+
+    if (direction) {
+        currentPoster++
+    } else {
+        currentPoster--
+    }
+
+    if (currentPoster < 0)
+        currentPoster = 0
+    if (currentPoster == posters.length)
+        currentPoster = posters.length - 1
+
+    UpdateArrows()
+
+    posters[currentPoster].show()
+    $("#dot" + currentPoster).addClass("dot-active")
+}
+
+function UpdateArrows(){
+
+    if(currentPoster == 0){
+        $("#left-arrow").hide()
+        $("#right-arrow").show()
+    }
+    else if(currentPoster == posters.length - 1){
+        $("#left-arrow").show()
+        $("#right-arrow").hide()
+    }
+    else{
+        $("#left-arrow").show()
+        $("#right-arrow").show()
+    }
+}
+
+function DisplayPosterID(id) {
+    posters[currentPoster].hide()
+    $("#dot" + currentPoster).removeClass("dot-active")
+
+    currentPoster = id
+
+    UpdateArrows()
+
+    posters[currentPoster].show()
+    $("#dot" + currentPoster).addClass("dot-active")
 }
 
 // Changes the title of vizualization page according to chosen biome

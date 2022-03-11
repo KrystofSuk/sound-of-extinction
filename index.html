@@ -19,6 +19,7 @@
   <script src="script/exporter.js"></script>
   <script src="script/visualisation.js"></script>
   <script src="script/misc.js"></script>
+  <script src="script/posters.js"></script>
 
 </head>
 
@@ -77,13 +78,13 @@
 
       <div class="flex-container-width" id="control-area">
 
-        <button class="dark-bg white-fg default-button sound-button" id="sound0" onclick="PlaySound(1, this.id)">Mongoose lemur</button>
+        <button class="white-fg default-button sound-button" id="sound0" onclick="PlaySound(1, this.id)">Mongoose lemur</button>
 
-        <button class="dark-bg white-fg default-button sound-button" id="sound1" onclick="PlaySound(2, this.id)">Western gorilla</button>
+        <button class="white-fg default-button sound-button" id="sound1" onclick="PlaySound(2, this.id)">Western gorilla</button>
 
-        <button class="dark-bg white-fg default-button sound-button" id="sound2" onclick="PlaySound(3, this.id)">Alagoas curassow</button>
+        <button class="white-fg default-button sound-button" id="sound2" onclick="PlaySound(3, this.id)">Alagoas curassow</button>
 
-        <button class="dark-bg white-fg default-button sound-button" id="sound3" onclick="PlaySound(4, this.id)">Bornean orangutan</button>
+        <button class="white-fg default-button sound-button" id="sound3" onclick="PlaySound(4, this.id)">Bornean orangutan</button>
 
       </div>
     </div>
@@ -97,10 +98,10 @@
 
   <div class="full-width full-height flex-container" id="message-page">
 
-    <h2 class="final-heading font-44 font-regular letter-space-5 mb-8">This sound of <span id="final-biome">rain forest</span><br>won’t ever be heard in nature</h2>
+    <h2 class="final-heading font-44 font-regular letter-space-5 mb-8">This sound of <span id="final-biome">rain forest</span><br>won’t ever be heard in nature again...</h2>
 
-    <h2 class="final-text font-44 font-regular letter-space-5">All of the species you’ve heard either<br>
-      went <span class="font-bolder">EXTINCT</span> or are near the <span  class="font-bolder">EXTINCTION!</span>
+    <h2 class="final-text font-44 font-regular letter-space-5">All of the species you’ve heard are either<br>
+      <span class="font-bolder">EXTINCT</span> or are on the verge of the <span  class="font-bolder">EXTINCTION!</span>
     </h2>
 
   </div>
@@ -109,14 +110,11 @@
 
 
     <div class="flex-container mb-3" id="final-spectrogram-area">
-      <button id="left-arrow" class="arrow-button"><img src="data/img/arrow.png"></button>   
-      <button id="right-arrow" class="arrow-button"><img src="data/img/arrow_r.png"></button>   
+      <button id="left-arrow" class="arrow-button" onclick="DisplayPoster(false)"><img src="data/img/arrow.png"></button>   
+      <button id="right-arrow" class="arrow-button" onclick="DisplayPoster(true)"><img src="data/img/arrow_r.png"></button>   
     </div>
 
-    <div class="flex-container-width full-width mb-3">
-      <button class="dot-button"></button>   
-      <button class="dot-button"></button>   
-      <button class="dot-button"></button>    
+    <div class="flex-container-width full-width mb-3" id="dots">
     </div>
 
     <div class="flex-container-width full-width">
