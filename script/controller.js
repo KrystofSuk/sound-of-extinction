@@ -1,15 +1,19 @@
 let loading = $("#loading-page");
 let intro = $("#intro-page");
 let menu = $("#menu-page");
+let tutorial = $("#tutorial-page");
 let visual = $("#visual-page");
 let message = $("#message-page");
 let final = $("#final-page");
 
 intro.hide();
 menu.hide();
+tutorial.hide()
 visual.hide();
 message.hide();
 final.hide();
+
+let firstTime = true
 
 // Switch to intro
 function ToIntro() {
@@ -24,9 +28,7 @@ function ToMenu() {
     menu.show();
 }
 
-// Switch to visualization page
-function ToBiome(biome, id) {
-    menu.hide();
+function ToVisualisation(biome, id){
     visual.show();
 
     ResetScene();
@@ -41,6 +43,25 @@ function ToBiome(biome, id) {
     for (let i = 0; i < SOUND_COUNT; i++) {
         sounds[activeBiome][i].setVolume(1, 0, 0);
     }
+}
+
+// Switch to visualization page
+function ToBiome(biome, id) {
+    menu.hide();
+
+    if(firstTime){
+
+        tutorial.show()
+        firstTime = false
+        setTimeout(()=>{
+            tutorial.hide()
+            ToVisualisation(biome, id)
+        }, 5000)
+
+    }else{
+        ToVisualisation(biome, id)
+    }
+
 }
 
 // Switch to final page
@@ -64,7 +85,7 @@ function ToFinal() {
 
 
         final.show();
-    }, 100)
+    }, 10000)
 }
 
 

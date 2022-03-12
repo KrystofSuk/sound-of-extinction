@@ -17,6 +17,7 @@
   --gray: #6b6b6b;
   --light-gray: #aaaaaa;
   --dark-gray: #444444;
+  --darkest-gray: #222222;
   --white: #ffffff;
   --black: #000000;
 }
@@ -41,6 +42,10 @@ body {
 
 .dark-bg {
   background-color: var(--dark-gray);
+}
+
+.darkest-bg {
+  background-color: var(--darkest-gray);
 }
 
 .gray-bg {
@@ -270,4 +275,10 @@ h2 {
 
 .hidden{
   display: none;
+}
+
+#tutorial{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }

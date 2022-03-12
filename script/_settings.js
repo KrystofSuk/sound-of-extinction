@@ -3,7 +3,7 @@ const SOUND_COUNT = 5;
 
 const RENDER_SIZE = 4096;
 
-let totalTime = 1;
+let totalTime = 20;
 let fps = 60;
 
 // Sounds per biome
