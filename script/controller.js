@@ -17,19 +17,21 @@ let firstTime = true
 
 // Switch to intro
 function ToIntro() {
-    loading.hide();
-    intro.show();
+    loading.fadeOut(1000);
+    intro.delay(1000).fadeIn(500);
 }
 
 // Switch to biome menu
-function ToMenu() {
-    final.hide();
-    intro.hide();
-    menu.show();
+function ToMenu(fromFinish = true) {
+    if(fromFinish)
+        final.fadeOut(500);
+    else
+        intro.fadeOut(500);
+    menu.delay(500).fadeIn(500);
 }
 
 function ToVisualisation(biome, id){
-    visual.show();
+    visual.show()
 
     ResetScene();
 
@@ -37,24 +39,27 @@ function ToVisualisation(biome, id){
     GeneratePoints();
     SetBiome(biome);
 
+    visual.hide()
 
-    setTimeout(Timer, 1000 / 24);
-    PlaySound(0, undefined, true);
-    for (let i = 0; i < SOUND_COUNT; i++) {
-        sounds[activeBiome][i].setVolume(1, 0, 0);
-    }
+    visual.delay(500).fadeIn(800,()=>{
+        setTimeout(Timer, 1000 / 24);
+        PlaySound(0, undefined, true);
+        for (let i = 0; i < SOUND_COUNT; i++) {
+            sounds[activeBiome][i].setVolume(1, 0, 0);
+        }
+    });
 }
 
 // Switch to visualization page
 function ToBiome(biome, id) {
-    menu.hide();
+    menu.fadeOut(500);
 
     if(firstTime){
 
-        tutorial.show()
+        tutorial.delay(500).fadeIn()
         firstTime = false
         setTimeout(()=>{
-            tutorial.hide()
+            tutorial.fadeOut(500)
             ToVisualisation(biome, id)
         }, 5000)
 
@@ -68,9 +73,8 @@ function ToBiome(biome, id) {
 function ToFinal() {
     $("#final-biome").html(SCENE_NAMES[activeBiome])
 
-    menu.hide();
-    visual.hide();
-    message.show();
+    visual.fadeOut(1000);
+    message.delay(1000).fadeIn(800);
     
     $("#dots").html("")
     for (let index = 0; index < posters.length; index++) {
@@ -79,12 +83,12 @@ function ToFinal() {
 
 
     setTimeout(() => {
-        message.hide();
+        message.fadeOut(800);
 
         DisplayPosterID(0)
 
 
-        final.show();
+        final.delay(800).fadeIn(800)
     }, 10000)
 }
 

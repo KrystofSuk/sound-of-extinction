@@ -166,7 +166,6 @@ function PlaySound(sound, button = undefined, instant = false) {
 
         setTimeout(() => {
             SetSelected(button, sound);
-            console.log("hey")
         }, sounds[activeBiome][sound].duration() * 1000 + 300)
     }
 }
@@ -192,7 +191,6 @@ function ResetScene() {
 
 // Main visualization loop
 function Timer() {
-    console.log("x")
     running = true;
     timer += 1 / totalTime / fps;
 
