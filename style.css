@@ -38,6 +38,27 @@ body {
   padding: 0;
   margin: 0;
   font-family: Inter-Regular;
+  overflow: hidden;
+
+}
+
+.bg{
+  position: absolute;
+  z-index: 100;
+  left: -200px;
+  top: -200px;
+  width: 120%;
+  height: 120%;
+  pointer-events: none;
+}
+
+#texture{
+  opacity: .7;
+}
+
+#noise{
+  background-image: url("data/img/noise.png");
+  opacity: .7;
 }
 
 .dark-bg {
@@ -98,7 +119,7 @@ body {
 }
 
 button:hover {
-  background-color: var(--light-gray);
+  background-color: var(--gray);
 }
 
 button:disabled {
@@ -281,4 +302,8 @@ h2 {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+#final-spectrogram-area canvas{
+  z-index: 500;
 }

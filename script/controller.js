@@ -38,15 +38,16 @@ function ToVisualisation(biome, id){
     //ChangeTitle(biome, id);
     GeneratePoints();
     SetBiome(biome);
+    
+    for (let i = 0; i < SOUND_COUNT; i++) {
+        sounds[activeBiome][i].setVolume(1, 0, 0);
+    }
 
     visual.hide()
 
     visual.delay(500).fadeIn(800,()=>{
         setTimeout(Timer, 1000 / 24);
         PlaySound(0, undefined, true);
-        for (let i = 0; i < SOUND_COUNT; i++) {
-            sounds[activeBiome][i].setVolume(1, 0, 0);
-        }
     });
 }
 
@@ -89,7 +90,7 @@ function ToFinal() {
 
 
         final.delay(800).fadeIn(800)
-    }, 10000)
+    }, 8000)
 }
 
 
@@ -155,7 +156,10 @@ function ChangeTitle(biome, id) {
 
 // Dynamically generates points on timeline and saves their x coordinates
 function GeneratePoints() {
-    let margins = [40, 50, 75, 90];
+    let margins = [44, 56, 68, 80];
+
+    $(".timeline-rotational-point").remove()
+    $(".fixed-bottom timeline-point").remove()
 
     for (let i = 0; i < margins.length; i++) {
         let point = document.createElement('div');

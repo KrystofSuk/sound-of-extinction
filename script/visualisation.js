@@ -148,24 +148,32 @@ function SetSelected(button, sound) {
 }
 
 // If the sound is not playing than play it, otherwise stop
-function PlaySound(sound, button = undefined, instant = false) {
-    if (!running && !instant)
+function PlaySound(sound, button = undefined, loop = false) {
+
+    if (!running && !loop)
         return;
 
-    if (!sounds[activeBiome][sound].isPlaying() && !instant) {
+    if (!sounds[activeBiome][sound].isPlaying() && !loop) {
+        sounds[activeBiome][sound].setVolume(0, 0, 0)
         sounds[activeBiome][sound].play();
-    } else if (!sounds[activeBiome][sound].isPlaying() && instant) {
+        sounds[activeBiome][sound].setVolume(1, .5, 0)
+    } else if (!sounds[activeBiome][sound].isPlaying() && loop) {
+        sounds[activeBiome][sound].setVolume(0, 0, 0)
         sounds[activeBiome][sound].play();
         sounds[activeBiome][sound].loop();
+        sounds[activeBiome][sound].setVolume(1, 2.5, 0)
+        console.log("x")
     } else {
         sounds[activeBiome][sound].stop();
     }
     // Mark button as selected or deselected
     if (button) {
+        $("#" + button).prop("disabled", true);
         SetSelected(button, sound);
 
         setTimeout(() => {
             SetSelected(button, sound);
+            $("#" + button).prop("disabled", false);
         }, sounds[activeBiome][sound].duration() * 1000 + 300)
     }
 }
@@ -189,36 +197,39 @@ function ResetScene() {
     cnv.clear()
 }
 
+let fading = false;
+
 // Main visualization loop
 function Timer() {
     running = true;
     timer += 1 / totalTime / fps;
 
+    if(timer >= 0.875 && !fading){
+        // Fade out all sounds for active biome
+        fading = true;
+        for (let i = 0; i < SOUND_COUNT; i++) {
+            sounds[activeBiome][i].setVolume(0, 2.5, 0);
+        }
+    }
+
     if (timer >= 1) {
 
         timer = 1;
         running = false;
+        fading = false;
 
-        // Fade out all sounds for active biome
-        for (let i = 0; i < SOUND_COUNT; i++) {
-            sounds[activeBiome][i].setVolume(0, 2.5, 0);
+        
+        img = pg.get();
+
+        for (let p = 0; p < posters.length; p++) {
+            posters[p].copyVisualisation(img, p*50);
         }
 
-        // Wait for a few seconds until sound has faded out
-        setTimeout(function () {
-            // Save canvas in order to redraw
-            img = pg.get();
+        ToFinal();
 
-            for (let p = 0; p < posters.length; p++) {
-                posters[p].copyVisualisation(img, p*50);
-            }
-
-            ToFinal();
-
-            //cnv.parent("final-spectrogram-area");
-            windowResized();
-            sounds[activeBiome][0].stop();
-        }, 3000);
+        //cnv.parent("final-spectrogram-area");
+        windowResized();
+        sounds[activeBiome][0].stop();
 
     } else {
 
