@@ -90,7 +90,7 @@ function ToFinal() {
 
 
         final.delay(800).fadeIn(800)
-    }, 8000)
+    }, 10000)
 }
 
 function FinalDBG(){

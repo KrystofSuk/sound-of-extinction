@@ -79,6 +79,16 @@ function SetBiome(biome) {
         var soundButton = document.getElementById(id);
         soundButton.firstChild.nodeValue = NAMES[biome][i];
     }
+
+    pg.translate(RENDER_SIZE / 2, RENDER_SIZE / 2);
+    pg.fill("#fff")
+    pg.noStroke()
+
+    pg.circle(0, 0, visualisationSize*2);
+
+    pg.noFill()
+
+    pg.resetMatrix();
 }
 
 // Update timeline progress
