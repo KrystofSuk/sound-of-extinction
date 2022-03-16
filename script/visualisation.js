@@ -170,7 +170,6 @@ function PlaySound(sound, button = undefined, loop = false) {
     } else if (!sounds[activeBiome][sound].isPlaying() && loop) {
         sounds[activeBiome][sound].setVolume(0, 0, 0)
         sounds[activeBiome][sound].play();
-        sounds[activeBiome][sound].setVolume(0, 0, 0)
         sounds[activeBiome][sound].loop();
         sounds[activeBiome][sound].setVolume(1, 2.5, 0)
     } else {

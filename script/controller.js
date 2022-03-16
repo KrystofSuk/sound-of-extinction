@@ -40,7 +40,7 @@ function ToVisualisation(biome, id){
     SetBiome(biome);
     
     for (let i = 0; i < SOUND_COUNT; i++) {
-        sounds[activeBiome][i].setVolume(1, 0, 0);
+        sounds[activeBiome][i].setVolume(0, 0, 0);
     }
 
     visual.hide()
