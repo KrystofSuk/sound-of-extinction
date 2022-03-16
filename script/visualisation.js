@@ -13,7 +13,7 @@ let img;
 var pg;
 
 // Set active biome and label buttons
-let activeBiome;
+let activeBiome = 0;
 
 let loadingFlag = true;
 let loadingCounter = 0;
@@ -222,7 +222,7 @@ function Timer() {
         img = pg.get();
 
         for (let p = 0; p < posters.length; p++) {
-            posters[p].copyVisualisation(img, p*50);
+            posters[p].visualise(img, p);
         }
 
         ToFinal();

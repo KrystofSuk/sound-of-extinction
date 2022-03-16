@@ -93,6 +93,27 @@ function ToFinal() {
     }, 8000)
 }
 
+function FinalDBG(){
+    intro.hide();
+    menu.hide();
+    tutorial.hide()
+    visual.hide();
+    message.hide();
+    final.hide();
+    
+    for (let p = 0; p < posters.length; p++) {
+        posters[p].visualise(null, p);
+    }
+
+    $("#dots").html("")
+    for (let index = 0; index < posters.length; index++) {
+        $("#dots").append('<button onclick="DisplayPosterID(' + index + ')" class="dot-button" id="dot' + index + '"></button>')
+    }
+
+    DisplayPosterID(0)
+    final.fadeIn(800)
+}
+
 
 function DisplayPoster(direction) {
     posters[currentPoster].hide()
