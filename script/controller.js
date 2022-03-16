@@ -196,7 +196,6 @@ function GeneratePoints() {
 
         let angle = margins[i] * 3.6 - 1 + 2
 
-        console.log(angle)
 
         point2.id = 'point-r' + i;
         point2.className = 'timeline-rotational-point';

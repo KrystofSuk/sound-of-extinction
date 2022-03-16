@@ -5,12 +5,12 @@ var poster = function (p) {
     var spectrogram;
     var pg;
 
-    let texture;
+    let tex;
     let tst;
     let fontRegular, fontLight, fontHeavy;
 
     p.preload = function () {
-        texture = loadImage('../data/img/texture.png');
+        tex = loadImage('../data/img/texture.png');
         tst = loadImage('../data/img/tst.png');
 
         fontRegular = loadFont('../fonts/iosevka-ss06-regular.ttf');
@@ -236,8 +236,8 @@ var poster = function (p) {
             pg.rect(2480, 0, 2480, 7016)
         }
 
-        //Texture
-        pg.image(texture, -100, -100, 5572, 7120)
+        //Tex
+        pg.image(tex, -100, -100, 5572, 7120)
     }
 };
 
