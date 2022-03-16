@@ -73,11 +73,11 @@ function windowResized() {
 function SetBiome(biome) {
     activeBiome = biome;
 
-    for (let i = 0; i < NAMES[biome].length; i++) {
+    for (let i = 0; i < NAMES[activeBiome].length; i++) {
         let id = "sound" + i;
 
         var soundButton = document.getElementById(id);
-        soundButton.firstChild.nodeValue = NAMES[biome][i];
+        soundButton.firstChild.nodeValue = NAMES[activeBiome][i];
     }
 
     pg.translate(RENDER_SIZE / 2, RENDER_SIZE / 2);
