@@ -38,10 +38,6 @@ function ToVisualisation(biome, id){
     //ChangeTitle(biome, id);
     GeneratePoints();
     SetBiome(biome);
-    
-    for (let i = 0; i < SOUND_COUNT; i++) {
-        sounds[activeBiome][i].setVolume(0, 0, 0);
-    }
 
     visual.hide()
 
@@ -54,6 +50,10 @@ function ToVisualisation(biome, id){
 // Switch to visualization page
 function ToBiome(biome, id) {
     menu.fadeOut(500);
+    
+    for (let i = 0; i < SOUND_COUNT; i++) {
+        sounds[biome][i].setVolume(0, 0, 0);
+    }
 
     if(firstTime){
 
