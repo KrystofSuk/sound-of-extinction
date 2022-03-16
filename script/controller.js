@@ -19,24 +19,18 @@ let firstTime = true
 function ToIntro() {
     loading.fadeOut(1000);
     intro.delay(1000).fadeIn(500);
-
-    for (let b = 0; b < BIOME_COUNT; b++) {
-        for (let i = 0; i < SOUND_COUNT; i++) {
-            sounds[b][i].setVolume(0, 0, 0);
-        }
-    }
 }
 
 // Switch to biome menu
 function ToMenu(fromFinish = true) {
-    if (fromFinish)
+    if(fromFinish)
         final.fadeOut(500);
     else
         intro.fadeOut(500);
     menu.delay(500).fadeIn(500);
 }
 
-function ToVisualisation(biome, id) {
+function ToVisualisation(biome, id){
     visual.show()
 
     ResetScene();
@@ -44,10 +38,14 @@ function ToVisualisation(biome, id) {
     //ChangeTitle(biome, id);
     GeneratePoints();
     SetBiome(biome);
+    
+    for (let i = 0; i < SOUND_COUNT; i++) {
+        sounds[activeBiome][i].setVolume(0, 0, 0);
+    }
 
     visual.hide()
 
-    visual.delay(500).fadeIn(800, () => {
+    visual.delay(500).fadeIn(800,()=>{
         setTimeout(Timer, 1000 / 24);
         PlaySound(0, undefined, true);
     });
@@ -57,20 +55,16 @@ function ToVisualisation(biome, id) {
 function ToBiome(biome, id) {
     menu.fadeOut(500);
 
-    for (let i = 0; i < SOUND_COUNT; i++) {
-        sounds[biome][i].setVolume(0, 0, 0);
-    }
-
-    if (firstTime) {
+    if(firstTime){
 
         tutorial.delay(500).fadeIn()
         firstTime = false
-        setTimeout(() => {
+        setTimeout(()=>{
             tutorial.fadeOut(500)
             ToVisualisation(biome, id)
         }, 5000)
 
-    } else {
+    }else{
         ToVisualisation(biome, id)
     }
 
@@ -82,7 +76,7 @@ function ToFinal() {
 
     visual.fadeOut(1000);
     message.delay(1000).fadeIn(800);
-
+    
     $("#dots").html("")
     for (let index = 0; index < posters.length; index++) {
         $("#dots").append('<button onclick="DisplayPosterID(' + index + ')" class="dot-button" id="dot' + index + '"></button>')
@@ -99,14 +93,14 @@ function ToFinal() {
     }, 10000)
 }
 
-function FinalDBG() {
+function FinalDBG(){
     intro.hide();
     menu.hide();
     tutorial.hide()
     visual.hide();
     message.hide();
     final.hide();
-
+    
     for (let p = 0; p < posters.length; p++) {
         posters[p].visualise(null, p);
     }
@@ -142,15 +136,17 @@ function DisplayPoster(direction) {
     $("#dot" + currentPoster).addClass("dot-active")
 }
 
-function UpdateArrows() {
+function UpdateArrows(){
 
-    if (currentPoster == 0) {
+    if(currentPoster == 0){
         $("#left-arrow").hide()
         $("#right-arrow").show()
-    } else if (currentPoster == posters.length - 1) {
+    }
+    else if(currentPoster == posters.length - 1){
         $("#left-arrow").show()
         $("#right-arrow").hide()
-    } else {
+    }
+    else{
         $("#left-arrow").show()
         $("#right-arrow").show()
     }

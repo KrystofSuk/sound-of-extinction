@@ -307,3 +307,13 @@ h2 {
 #final-spectrogram-area canvas{
   z-index: 500;
 }
+
+#credits{
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  color: var(--light-gray);
+  letter-spacing: 4px;
+  text-align: center;
+  font-size: 12px;
+}
