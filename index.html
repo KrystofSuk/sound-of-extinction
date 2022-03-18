@@ -16,11 +16,13 @@
 
   <!--Scripts-->
   <script src="script/settings.js"></script>
-  <script src="script/exporter.js"></script>
-  <script src="script/visualisation.js"></script>
-  <script src="script/misc.js"></script>
-  <script src="script/posters.js"></script>
+  <script src="script/visusalisation/loader.js"></script>
+  <script src="script/visusalisation/visualisation.js"></script>
+  <script src="script/visusalisation/ui-controller.js"></script>
+  <script src="script/core/misc.js"></script>
+  <script src="script/visusalisation/posters.js"></script>
 
+  <!--Font Preloads-->
   <link rel="preload" as="font" href="/fonts/INTER-LIGHT.TTF">
   <link rel="preload" as="font" href="/fonts/INTER-REGULAR.TTF">
   <link rel="preload" as="font" href="/fonts/INTER-BOLD.TTF">
@@ -29,29 +31,33 @@
 
 <body>
 
+  <!--Texture-->
   <img src="data/img/texture.png" id="texture" class="bg">
   <div id="noise" class="bg"></div>
 
+  <!--Loading-->
   <div class="full-width full-height flex-container darkest-bg" id="loading-page">
 
     <h2 id="loading-progress" class="font-36 font-bold letter-space-10 white-fg">00%</h2>
 
   </div>
 
+  <!--Intro-->
   <div class="full-width full-height flex-container" id="intro-page">
 
     <h1 class="font-72 font-bolder letter-space-20">SOUND<br><span class="font-36 letter-space-10 line-height-medium font-bold">of</span><br>EXTINCTION</h1>
 
-    <button class="dark-bg white-fg default-button" id="to-menu-button" onclick="ToMenu(false)">CONTINUE</button>
+    <button class="dark-bg white-fg default-button" id="to-menu-button" onclick="toMenu(false)">CONTINUE</button>
   </div>
 
+  <!--Menu-->
   <div class="full-width full-height flex-container" id="menu-page">
 
     <h2 class="font-64 letter-space-20 font-bolder mb-8">CHOOSE BIOME</h2>
 
     <div class="flex-container-width full-width">
 
-      <button class="dark-bg white-fg default-button biome-button flex-container" id="biome0" onclick="ToBiome(0, this.id)" value="Forest">
+      <button class="dark-bg white-fg default-button biome-button flex-container" id="biome0" onclick="toBiome(0, this.id)" value="Forest">
         <!-- Attribution: https://freeicons.io/real-estate-icons-2/real%20estate-forest-icon-1610 -->
         <img class="biome-image" src="data/img/forest.svg" />
 
@@ -59,7 +65,7 @@
 
       </button>
 
-      <button class="dark-bg white-fg default-button biome-button flex-container" id="biome3" onclick="ToBiome(1, this.id)" value="Desert">
+      <button class="dark-bg white-fg default-button biome-button flex-container" id="biome3" onclick="toBiome(1, this.id)" value="Desert">
 
         <!-- Attribution: https://www.svgrepo.com/svg/25733/cactus -->
         <img class="biome-image" src="data/img/desert.svg" />
@@ -71,12 +77,14 @@
     </div>
   </div>
 
+  <!--Tutorial-->
   <div class="full-width full-height flex-container" id="tutorial-page">
 
     <img id="tutorial" src="data/img/tutorial.png" />
 
   </div>
 
+  <!--Visualisation-->
   <div class="full-width full-height flex-container" id="visual-page">
     <div class="flex-container full-width">
       <div class="flex-container mb-8" id="spectrogram-area">
@@ -90,15 +98,16 @@
         </div>
       </div>
 
+      <!--Controls-->
       <div class="flex-container-width" id="control-area">
 
-        <button class="white-fg default-button sound-button" id="sound0" onclick="PlaySound(1, this.id)">Mongoose lemur</button>
+        <button class="white-fg default-button sound-button" id="sound0" onclick="playSound(1, this.id)">Mongoose lemur</button>
 
-        <button class="white-fg default-button sound-button" id="sound1" onclick="PlaySound(2, this.id)">Western gorilla</button>
+        <button class="white-fg default-button sound-button" id="sound1" onclick="playSound(2, this.id)">Western gorilla</button>
 
-        <button class="white-fg default-button sound-button" id="sound2" onclick="PlaySound(3, this.id)">Alagoas curassow</button>
+        <button class="white-fg default-button sound-button" id="sound2" onclick="playSound(3, this.id)">Alagoas curassow</button>
 
-        <button class="white-fg default-button sound-button" id="sound3" onclick="PlaySound(4, this.id)">Bornean orangutan</button>
+        <button class="white-fg default-button sound-button" id="sound3" onclick="playSound(4, this.id)">Bornean orangutan</button>
 
       </div>
     </div>
@@ -110,6 +119,7 @@
     </div>
   </div>
 
+  <!--Message-->
   <div class="full-width full-height flex-container" id="message-page">
 
     <h2 class="final-heading font-44 font-regular letter-space-5 mb-8">This sound of <span id="final-biome">rain forest</span><br>won’t ever be heard in nature again...</h2>
@@ -120,23 +130,24 @@
 
   </div>
 
+  <!--Posters-->
   <div class="full-width full-height flex-container" id="final-page">
 
 
     <div class="flex-container mb-3" id="final-spectrogram-area">
-      <button id="left-arrow" class="arrow-button" onclick="DisplayPoster(false)"><img src="data/img/arrow.png"></button>   
-      <button id="right-arrow" class="arrow-button" onclick="DisplayPoster(true)"><img src="data/img/arrow_r.png"></button>   
+      <button id="left-arrow" class="arrow-button" onclick="displayPoster(false)"><img src="data/img/arrow.png"></button>   
+      <button id="right-arrow" class="arrow-button" onclick="displayPoster(true)"><img src="data/img/arrow_r.png"></button>   
     </div>
 
     <div class="flex-container-width full-width mb-3" id="dots">
     </div>
 
     <div class="flex-container-width full-width">
-      <button class="dark-bg white-fg default-button menu-button flex-container" onclick="DownloadImage()">
+      <button class="dark-bg white-fg default-button menu-button flex-container" onclick="downloadImage()">
         DOWNLOAD
       </button>
 
-      <button class="gray-bg white-fg default-button menu-button flex-container" onclick="ToMenu()">
+      <button class="gray-bg white-fg default-button menu-button flex-container" onclick="toMenu()">
         MENU
       </button>
     </div>
@@ -145,7 +156,7 @@
   
   <footer id="credits">created by: kryštof šuk & veronika kalousková</footer>
 
-  <script src="script/controller.js"></script>
+  <script src="script/core/controller.js"></script>
 </body>
 
 </html>
