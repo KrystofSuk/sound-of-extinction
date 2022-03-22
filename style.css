@@ -45,10 +45,9 @@ body {
 .bg{
   position: absolute;
   z-index: 100;
-  left: -200px;
+  left: -100px;
   top: -200px;
-  width: 120%;
-  height: 120%;
+  width: 110%;
   pointer-events: none;
 }
 
@@ -316,4 +315,57 @@ h2 {
   letter-spacing: 4px;
   text-align: center;
   font-size: 12px;
+}
+
+@media only screen and (max-height: 850px) {
+  
+  #tutorial{
+    height: 80%;
+  }
+
+  #defaultCanvas3{
+    max-height: 440px;
+    max-width: 440px;
+  }
+
+  #timeline-rotational{
+    width: 460px;
+    height: 460px;
+  }
+
+  #timeline-rotational-fill{
+    width: 460px;
+    height: 460px;
+  }
+
+  .timeline-rotational-point{
+    width: 460px;
+    height: 460px;
+  }
+
+  #timeline-clear{
+    width: 438px;
+    height: 438px;
+    top: 11px;
+    left: 11px;
+  }
+
+  #defaultCanvas0{
+    max-height: 440px;
+    max-width: 310px;
+  }
+  #defaultCanvas1{
+    max-height: 440px;
+    max-width: 310px;
+  }
+  #defaultCanvas2{
+    max-height: 440px;
+    max-width: 310px;
+  }
+  #left-arrow{
+    left: calc(50% - 256px);
+  }
+  #right-arrow{
+    right: calc(50% - 256px);
+  }
 }
