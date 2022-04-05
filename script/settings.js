@@ -11,7 +11,7 @@ const MARGINS = [44, 56, 68, 80]
 
 // Timers for UI in ms
 const MESSAGE_TIME = 10000
-const TUTORIAL_TIME = 5000
+const TUTORIAL_TIME = 10000
 
 // Sounds per biome
 let sounds = []
