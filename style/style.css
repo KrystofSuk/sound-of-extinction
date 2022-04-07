@@ -1,16 +1,16 @@
 @font-face {
   font-family: Inter-Regular;
-  src: url(fonts/INTER-REGULAR.TTF);
+  src: url(../fonts/INTER-REGULAR.TTF);
 }
 
 @font-face {
   font-family: Inter-Bold;
-  src: url(fonts/INTER-BOLD.TTF);
+  src: url(../fonts/INTER-BOLD.TTF);
 }
 
 @font-face {
   font-family: Inter-Light;
-  src: url(fonts/INTER-LIGHT.TTF);
+  src: url(../fonts/INTER-LIGHT.TTF);
 }
 
 :root {
@@ -56,7 +56,7 @@ body {
 }
 
 #noise{
-  background-image: url("data/img/noise.png");
+  background-image: url("../data/img/noise.png");
   opacity: .7;
 }
 

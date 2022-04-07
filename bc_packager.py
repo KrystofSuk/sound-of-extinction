@@ -1,33 +1,55 @@
 import os
 import sys
 import shutil
+import subprocess
   
 directory = 'export'
+doc = 'doc'
+
 
 sourceFolders = ["data", "fonts", "lib", "script", "style"]
 sourceFiles = ["composer.json", "index.html", "index.php"]
 
 def copy():
-    os.mkdir(directory)
+    if os.path.isdir(directory):
+        shutil.rmtree(directory)
+
+    if not os.path.isdir(directory):
+        os.mkdir(directory)
+
 
     src = directory+"/src/"
 
     for fol in sourceFolders:
-        shutil.copytree(fol, src+fol, symlinks=False, ignore=None, copy_function=copy2, ignore_dangling_symlinks=False, dirs_exist_ok=False)
+        print("Copying folder", fol, "to", src+fol)
+        shutil.copytree(fol, src+fol)
 
+    for fol in sourceFiles:
+        print("Copying file", fol, "to", src+fol)
+        shutil.copyfile(fol, src+fol)
+    
+    if os.path.isdir(doc):
+        print("Copying documentation", doc, "to", directory+"/"+doc)
+        shutil.copytree(doc, directory+"/"+doc)
 
-print(f"Name of the script      : {sys.argv[0]}")
-print(f"Arguments of the script : {sys.argv[1:]}")
+def documentation():
+    os.system("jsdoc -r ./script/ -d ./"+doc)  
+
+def clean():
+    if os.path.isdir(directory):
+        shutil.rmtree(directory)
+    if os.path.isdir(doc):
+        shutil.rmtree(doc)
+
 
 if len(sys.argv[1:]) == 0:
     exit(1) 
 
-if sys.argv[1] == "clean" and os.path.isdir(directory):
-    shutil.rmtree(directory)
+if sys.argv[1] == "clean":
+    clean()
 
 if sys.argv[1] == "create":
-    if not os.path.isdir(directory):
-        copy()
-    else:
-        shutil.rmtree(directory)
-        copy()
+    copy()
+
+if sys.argv[1] == "doc":
+    documentation()
