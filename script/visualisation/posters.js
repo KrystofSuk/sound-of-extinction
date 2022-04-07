@@ -1,4 +1,7 @@
-// Poster function to create p5 sk instance
+/**
+ * Function for creating P5.js instance of sketch for poster 
+ * @param {object} sk sketch from P5.js
+ */
 var poster = function (sk) {
     let canvas
     var spectrogram
@@ -245,7 +248,9 @@ let posters = [
     new p5(poster, 'final-spectrogram-area')
 ]
 
-// Save created poster
+/**
+ * Function for saving resulting poster
+ */
 function downloadImage() {
     posters[currentPoster].saveImage()
 }

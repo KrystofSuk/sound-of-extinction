@@ -1,9 +1,8 @@
 let loadingCounter = 0
 
-// On sound loaded event
 /**
- * 
- * @param {*} sound 
+ * Function callback on loaded sound, it refreshes the UI of loading calling {@link updateLoading} or switches to intro screen by calling {@link toIntro}
+ * @param {object} sound specific P5.js sound that was loaded
  */
 function soundLoaded(sound) {
     loadingCounter++
@@ -20,7 +19,9 @@ function soundLoaded(sound) {
     }
 }
 
-// Load each of the possible scenes beforehand
+/**
+ * Function for loading individual scenes and its sounds, on finished loading sound callback is called {@link soundLoaded}
+ */
 function loadScenes() {
     for (let i = 0; i < BIOME_COUNT; i++) {
         let sceneSounds = []

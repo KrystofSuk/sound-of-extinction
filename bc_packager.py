@@ -45,7 +45,7 @@ def copy():
         shutil.copytree(thesis[1], text)
 
 def documentation():
-    os.system("jsdoc -r ./script/ -d ./"+doc)  
+    os.system("jsdoc -r ./script/ --readme readme.md -d ./"+doc)  
 
 def clean():
     if os.path.isdir(directory):

@@ -16,11 +16,11 @@
 
   <!--Scripts-->
   <script src="script/settings.js"></script>
-  <script src="script/visusalisation/loader.js"></script>
-  <script src="script/visusalisation/visualisation.js"></script>
-  <script src="script/visusalisation/ui-controller.js"></script>
+  <script src="script/visualisation/loader.js"></script>
+  <script src="script/visualisation/visualisation.js"></script>
+  <script src="script/visualisation/ui-controller.js"></script>
   <script src="script/core/misc.js"></script>
-  <script src="script/visusalisation/posters.js"></script>
+  <script src="script/visualisation/posters.js"></script>
 
   <!--Font Preloads-->
   <link rel="preload" as="font" href="/fonts/INTER-LIGHT.TTF">
@@ -57,7 +57,7 @@
 
     <div class="flex-container-width full-width">
 
-      <button class="dark-bg white-fg default-button biome-button flex-container" id="biome0" onclick="toBiome(0, this.id)" value="Forest">
+      <button class="dark-bg white-fg default-button biome-button flex-container" id="biome0" onclick="toBiome(0)" value="Forest">
         <!-- Attribution: https://freeicons.io/real-estate-icons-2/real%20estate-forest-icon-1610 -->
         <img class="biome-image" src="data/img/forest.svg" />
 
@@ -65,7 +65,7 @@
 
       </button>
 
-      <button class="dark-bg white-fg default-button biome-button flex-container" id="biome3" onclick="toBiome(1, this.id)" value="Desert">
+      <button class="dark-bg white-fg default-button biome-button flex-container" id="biome3" onclick="toBiome(1)" value="Desert">
 
         <!-- Attribution: https://www.svgrepo.com/svg/25733/cactus -->
         <img class="biome-image" src="data/img/desert.svg" />

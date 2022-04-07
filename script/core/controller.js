@@ -16,13 +16,18 @@ final.hide()
 // Flag for tutorial display
 let firstTime = true
 
-// Switch to intro
+/**
+ * Function for switching UI into intro mode from loading screen
+ */
 function toIntro() {
     loading.fadeOut(1000)
     intro.delay(1000).fadeIn(500)
 }
 
-// Switch to biome menu
+/**
+ * Function for switching UI to biome select menu
+ * @param {boolean} fromFinish flag if the UI is coming from finished visualisation, used for correct element fade out
+ */
 function toMenu(fromFinish = true) {
     if(fromFinish)
         final.fadeOut(500)
@@ -31,7 +36,11 @@ function toMenu(fromFinish = true) {
     menu.delay(500).fadeIn(500)
 }
 
-function toVisualisation(biome, id){
+/**
+ * Function for switching UI to visualisation screen
+ * @param {int} biome the specified biome ID
+ */
+function toVisualisation(biome){
     visual.show()
 
     resetScene()
@@ -51,8 +60,11 @@ function toVisualisation(biome, id){
     })
 }
 
-// Switch to visualization page
-function toBiome(biome, id) {
+/**
+ * Function for switching UI to tutorial screen and then visualisation or straight into visualisation by calling {@link toVisualisation}
+ * @param {int} biome the specified biome ID
+ */
+function toBiome(biome) {
     menu.fadeOut(500)
 
     if(firstTime){
@@ -61,16 +73,18 @@ function toBiome(biome, id) {
         firstTime = false
         setTimeout(()=>{
             tutorial.fadeOut(500)
-            toVisualisation(biome, id)
+            toVisualisation(biome)
         }, TUTORIAL_TIME)
 
     }else{
-        toVisualisation(biome, id)
+        toVisualisation(biome)
     }
 
 }
 
-// Switch to final page
+/**
+ * Function for switching UI to final screen with message displayed
+ */
 function toFinal() {
     $("#final-biome").html(SCENE_NAMES[activeBiome])
 
@@ -93,7 +107,10 @@ function toFinal() {
     }, MESSAGE_TIME)
 }
 
-// Swipe through posters in direction
+/**
+ * Function for swiping through posters to some direction
+ * @param {boolean} direction if true go right othervise left
+ */
 function displayPoster(direction) {
     posters[currentPoster].hide()
     $("#dot" + currentPoster).removeClass("dot-active")
@@ -115,7 +132,9 @@ function displayPoster(direction) {
     $("#dot" + currentPoster).addClass("dot-active")
 }
 
-// Update arrows on selecting posters
+/**
+ * Function for updating arrows in UI on poster screen
+ */
 function updateArrows(){
     if(currentPoster == 0){
         $("#left-arrow").hide()
@@ -131,7 +150,10 @@ function updateArrows(){
     }
 }
 
-// Display individual poster by ID
+/**
+ * Function for displaying specific poster defined by it's ID
+ * @param {int} id index of the poster 
+ */
 function displayPosterID(id) {
     posters[currentPoster].hide()
     $("#dot" + currentPoster).removeClass("dot-active")
@@ -144,7 +166,9 @@ function displayPosterID(id) {
     $("#dot" + currentPoster).addClass("dot-active")
 }
 
-// Dynamically generates points on timeline and saves their x coordinates
+/**
+ * Function for dynamically generating points on timeline
+ */
 function generatePoints() {
 
     $(".timeline-rotational-point").remove()
@@ -177,7 +201,10 @@ function generatePoints() {
     }
 }
 
-// Updates the loading number
+/**
+ * Function for updating the loading UI
+ * @param {int} progress percentage of loaded page 
+ */
 function updateLoading(progress) {
     $("#loading-progress").html(progress + "%")
 }

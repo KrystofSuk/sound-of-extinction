@@ -38,6 +38,10 @@ function draw() {
 //------------------------------------Visualisation Functions------------------------------------------
 
 // Sets the biome and active sounds
+/**
+ * Function for setting current biome parameters 
+ * @param {int} biome identifier of the biome
+ */
 function setBiome(biome) {
     activeBiome = biome
 
@@ -59,7 +63,12 @@ function setBiome(biome) {
     visualisationGraphics.resetMatrix()
 }
 
-// If the sound is not playing than play it or loop it if it is set to loop, otherwise stop
+/**
+ * Function for playing the sound either when users clicks button or visualisation want's to play ambient sound
+ * @param {int} sound index of the sound
+ * @param {string} button identifier of the button if any
+ * @param {bool} loop flag for the looping of specific sound
+ */
 function playSound(sound, button = undefined, loop = false) {
     if (!running && !loop)
         return
@@ -84,6 +93,9 @@ function playSound(sound, button = undefined, loop = false) {
 }
 
 // Reset whole scene for listening again
+/**
+ * Support function for clearing UI, resetting and cleaning everything before start of the visualisation
+ */
 function resetScene() {
     timer = 0
     pointsReached = 0
@@ -99,7 +111,9 @@ function resetScene() {
     canvas.clear()
 }
 
-// Main visualization loop
+/**
+ * Main visualisation tick
+ */
 function visualisationTick() {
     running = true
     timer += 1 / TOTAL_TIME / FPS
