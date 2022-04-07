@@ -1,6 +1,10 @@
 let loadingCounter = 0
 
 // On sound loaded event
+/**
+ * 
+ * @param {*} sound 
+ */
 function soundLoaded(sound) {
     loadingCounter++
     let targetCount = BIOME_COUNT * SOUND_COUNT
