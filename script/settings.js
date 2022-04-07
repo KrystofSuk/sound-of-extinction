@@ -23,10 +23,7 @@ const PATHS = [FOREST, DESERT]
 
 // Animal names per biome
 const FOREST_NAMES = ["Mongoose Lemur", "Western Gorilla", "Alagoas Curassow", "Bornean Orangutan"]
-const SHRUBLAND_NAMES = ["Animal", "Animal", "Animal", "Animal"]
-const SAVANNA_NAMES = ["Animal", "Animal", "Animal", "Animal"]
 const DESERT_NAMES = ["Black Rhinoceros", "White-backed Vulture", "Scimitar-horned Oryx", "Saiga Antelope"]
-const GRASSLAND_NAMES = ["Animal", "Animal", "Animal", "Animal"]
 
 const NAMES = [FOREST_NAMES, DESERT_NAMES]
 const SCENE_NAMES = ["rain forest", "shrublands", "savanna", "desert", "grass fields"]
