@@ -25,12 +25,12 @@ let sounds = []
 /**
  * Paths to forest audio sources
  */
-const FOREST = ["forest/ambient_forest_v1.wav", "forest/eulemur_mongoz_v1.wav", "forest/gorilla_gorilla_v1.wav", "forest/mitu_mitu_v1.wav", "forest/pongo_pygmaeus_v1.wav"]
+const FOREST = ["forest/ambient_forest_v2.wav", "forest/eulemur_mongoz_v1.wav", "forest/gorilla_gorilla_v1.wav", "forest/mitu_mitu_v1.wav", "forest/pongo_pygmaeus_v1.wav"]
 
 /**
  * Paths to desert audio sources
  */
-const DESERT = ["forest/ambient_forest_v1.wav", "desert/diceros_bicornis_v1.wav", "desert/gyps_africanus_v1.wav", "desert/oryx_dammah_v1.wav", "desert/saiga_tatarica_v1.wav"]
+const DESERT = ["desert/ambient_desert_v1.wav", "desert/diceros_bicornis_v1.wav", "desert/gyps_africanus_v1.wav", "desert/oryx_dammah_v1.wav", "desert/saiga_tatarica_v1.wav"]
 
 //const PATHS = [FOREST, SHRUBLAND, SAVANNA, DESERT, GRASSLAND];
 const PATHS = [FOREST, DESERT]
