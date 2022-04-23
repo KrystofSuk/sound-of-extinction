@@ -15,6 +15,15 @@
   <script src="lib/jquery.min.js"></script>
 
   <!--Scripts-->
+  <script>
+    //redirect to https for correct p5 functionality 
+    /*
+      https://stackoverflow.com/questions/4723213/detect-http-or-https-then-force-https-in-javascript
+    */
+    if (location.protocol !== "https:") {
+      location.protocol = "https:";
+    }
+  </script>
   <script src="script/settings.js"></script>
   <script src="script/visualisation/loader.js"></script>
   <script src="script/visualisation/visualisation.js"></script>
