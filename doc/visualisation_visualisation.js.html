@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: visualisation/visualisation.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: visualisation/visualisation.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// Canvas instance
+let canvas
+let copyBuffer
+var visualisationGraphics
+
+let timer
+
+// Flags
+let running = false
+let fading = false
+
+let pointsReached = 0
+
+// Set active biome and label buttons
+let activeBiome = 0
+
+
+//----------------------------------------P5 Functions------------------------------------------------
+function preload() {
+    soundFormats("mp3", "wav")
+    loadScenes()
+}
+
+function setup() {
+    canvas = createCanvas(640, 640)
+    canvas.parent("spectrogram-area")
+
+    visualisationGraphics = createGraphics(RENDER_SIZE, RENDER_SIZE)
+
+    fft = new p5.FFT()
+}
+
+function draw() {
+    image(visualisationGraphics, 0, 0, width, height)
+}
+
+
+//------------------------------------Visualisation Functions------------------------------------------
+
+// Sets the biome and active sounds
+/**
+ * Function for setting current biome parameters 
+ * @param {int} biome identifier of the biome
+ */
+function setBiome(biome) {
+    activeBiome = biome
+
+    for (let i = 0; i &lt; NAMES[activeBiome].length; i++) {
+        let id = "sound" + i
+
+        var soundButton = document.getElementById(id)
+        soundButton.firstChild.nodeValue = NAMES[activeBiome][i]
+    }
+
+    visualisationGraphics.translate(RENDER_SIZE / 2, RENDER_SIZE / 2)
+    visualisationGraphics.fill("#fff")
+    visualisationGraphics.noStroke()
+
+    visualisationGraphics.circle(0, 0, visualisationSize * 2)
+
+    visualisationGraphics.noFill()
+
+    visualisationGraphics.resetMatrix()
+}
+
+/**
+ * Function for playing the sound either when users clicks button or visualisation want's to play ambient sound
+ * @param {int} sound index of the sound
+ * @param {string} button identifier of the button if any
+ * @param {bool} loop flag for the looping of specific sound
+ */
+function playSound(sound, button = undefined, loop = false) {
+    if (!running &amp;&amp; !loop)
+        return
+
+    if (!sounds[activeBiome][sound].isPlaying() &amp;&amp; !loop) {
+        sounds[activeBiome][sound].setVolume(0, 0, 0)
+        sounds[activeBiome][sound].play()
+        sounds[activeBiome][sound].setVolume(1, .5, 0)
+    } else if (!sounds[activeBiome][sound].isPlaying() &amp;&amp; loop) {
+        sounds[activeBiome][sound].setVolume(0, 0, 0)
+        sounds[activeBiome][sound].play()
+        sounds[activeBiome][sound].loop()
+        sounds[activeBiome][sound].setVolume(1, 2.5, 0)
+    } else {
+        sounds[activeBiome][sound].stop()
+    }
+
+    // Mark button as selected or deselected
+    if (button) {
+        buttonClick(button, sound)
+    }
+}
+
+// Reset whole scene for listening again
+/**
+ * Support function for clearing UI, resetting and cleaning everything before start of the visualisation
+ */
+function resetScene() {
+    timer = 0
+    pointsReached = 0
+
+    updateTimeline()
+
+    for (let i = 0; i &lt; SOUND_COUNT - 1; i++) {
+        let id = "sound" + i
+        enableButton(id)
+    }
+
+    visualisationGraphics.clear()
+    canvas.clear()
+}
+
+/**
+ * Main visualisation tick
+ */
+function visualisationTick() {
+    running = true
+    timer += 1 / TOTAL_TIME / FPS
+
+    // Fade out all sounds for active biome near the end 
+    if (timer >= 0.875 &amp;&amp; !fading) {
+        fading = true
+        for (let i = 0; i &lt; SOUND_COUNT; i++) {
+            sounds[activeBiome][i].setVolume(0, 2.5, 0)
+        }
+    }
+
+    if (timer &lt; 1) {
+
+        let spectrum = fft.analyze()
+
+        visualisationGraphics.translate(RENDER_SIZE / 2, RENDER_SIZE / 2)
+
+        let angle = PI * 2 * timer - PI / 2
+        let nextAngle = PI * 2 * (timer + 1 / TOTAL_TIME / FPS) - PI / 2
+        let diff = nextAngle - angle
+        let weight = visualisationSize / spectrum.length + 2
+
+        visualisationGraphics.rotate(angle)
+
+        for (let i = 0; i &lt; spectrum.length; i++) {
+
+            let x = map(i, 0, spectrum.length, visualisationSize, 0)
+            let h = map(Math.pow(spectrum[i], .7), 0, 40, 255, 0)
+
+            let lenght = diff
+
+            visualisationGraphics.stroke(h, h, h, 255)
+            visualisationGraphics.strokeCap(PROJECT)
+
+            visualisationGraphics.strokeWeight(weight)
+            visualisationGraphics.arc(0, 0, x * 2, x * 2, 0, lenght)
+        }
+
+        setTimeout(visualisationTick, 1000 / FPS)
+
+        // Disabling of buttons when hitting the mark
+        if (pointsReached &lt; SOUND_COUNT - 1) {
+            let point = "point" + pointsReached
+            let coord = document.getElementById(point).getBoundingClientRect().left + 5
+
+            if (window.innerWidth * timer > coord) {
+                let id = "sound" + pointsReached
+                disableButton(id)
+
+                sounds[activeBiome][pointsReached + 1].setVolume(0, .5, 0)
+
+                pointsReached++
+            }
+        }
+
+        visualisationGraphics.rotate(-(PI * 2 * timer - PI / 2))
+        visualisationGraphics.translate(-RENDER_SIZE / 2, -RENDER_SIZE / 2)
+    } else {
+        //Finished visualisation 
+
+        timer = 1
+        running = false
+        fading = false
+
+        copyBuffer = visualisationGraphics.get()
+
+        for (let p = 0; p &lt; posters.length; p++) {
+            posters[p].visualise(copyBuffer, p)
+        }
+
+        toFinal()
+        sounds[activeBiome][0].stop()
+    }
+
+    updateTimeline()
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#buttonClick">buttonClick</a></li><li><a href="global.html#DESERT">DESERT</a></li><li><a href="global.html#DESERT_NAMES">DESERT_NAMES</a></li><li><a href="global.html#disableButton">disableButton</a></li><li><a href="global.html#displayPoster">displayPoster</a></li><li><a href="global.html#displayPosterID">displayPosterID</a></li><li><a href="global.html#downloadImage">downloadImage</a></li><li><a href="global.html#enableButton">enableButton</a></li><li><a href="global.html#FOREST">FOREST</a></li><li><a href="global.html#FOREST_NAMES">FOREST_NAMES</a></li><li><a href="global.html#generatePoints">generatePoints</a></li><li><a href="global.html#loadScenes">loadScenes</a></li><li><a href="global.html#MESSAGE_TIME">MESSAGE_TIME</a></li><li><a href="global.html#playSound">playSound</a></li><li><a href="global.html#poster">poster</a></li><li><a href="global.html#progressButton">progressButton</a></li><li><a href="global.html#resetScene">resetScene</a></li><li><a href="global.html#setBiome">setBiome</a></li><li><a href="global.html#setDocHeight">setDocHeight</a></li><li><a href="global.html#soundLoaded">soundLoaded</a></li><li><a href="global.html#toBiome">toBiome</a></li><li><a href="global.html#toFinal">toFinal</a></li><li><a href="global.html#toIntro">toIntro</a></li><li><a href="global.html#toMenu">toMenu</a></li><li><a href="global.html#toVisualisation">toVisualisation</a></li><li><a href="global.html#TUTORIAL_TIME">TUTORIAL_TIME</a></li><li><a href="global.html#updateArrows">updateArrows</a></li><li><a href="global.html#updateLoading">updateLoading</a></li><li><a href="global.html#updateTimeline">updateTimeline</a></li><li><a href="global.html#visualisationTick">visualisationTick</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Apr 08 2022 01:09:43 GMT+0200 (Středoevropský letní čas)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

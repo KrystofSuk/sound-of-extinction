@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: visualisation/ui-controller.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: visualisation/ui-controller.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Function for updating timeline progress of visualisation
+ */
+function updateTimeline() {
+    let angle = timer / 1 * 360 + .1
+
+    // Horizontal
+    $("#timeline-fill").css("width", window.innerWidth * timer);
+
+    // Rotational
+    $("#timeline-rotational-fill").css("background",
+        "conic-gradient(var(--gray)" + angle + "deg, transparent " + angle + "deg 360deg)"
+    );
+}
+
+/**
+ * Function that enable button specified by id for visualisation
+ * @param {string} id identifier of the button
+ */
+function enableButton(id) {
+    $("#" + id).css("background",
+        "linear-gradient(to right, var(--dark-gray) 100%, var(--light-gray) 0%)"
+    );
+
+    $("#" + id).prop("disabled", false);
+    $("#" + id).css("opacity", 1);
+}
+
+/**
+ * Function that disable button specified by id for visualisation
+ * @param {string} id identifier of the button
+ */
+function disableButton(id) {
+    $("#" + id).prop("disabled", true);
+    $("#" + id).animate({
+        opacity: "0"
+    }, 500)
+}
+
+/**
+ * Function for showing progress of audio sample in the button itself
+ * @param {string} button identifier of the button
+ * @param {int} sound index of the sound for desired button
+ */
+function progressButton(button, sound) {
+    let percentage = sounds[activeBiome][sound].currentTime() / sounds[activeBiome][sound].duration() * 100
+
+    $("#" + button).css("background",
+        "linear-gradient(to right, var(--dark-gray)" + percentage + "%, var(--light-gray) " + percentage + "%)"
+    );
+
+    if (sounds[activeBiome][sound].isPlaying()){
+        setTimeout(() => {
+            progressButton(button, sound)
+        }, 1000 / 60)
+    }
+    else{
+        $("#" + button).css("background",
+            "linear-gradient(to right, var(--dark-gray) 100%, var(--light-gray) 0%)"
+        )
+
+        $("#" + button).prop("disabled", false)
+    }
+}
+
+// Control button clicked
+/**
+ * Function for button click and its disabling when user clicks the button for audio playback, calls {@link progressButton}
+ * @param {string} button identifier of the button
+ * @param {int} sound index of the sound for desired button
+ */
+function buttonClick(button, sound) {
+    $("#" + button).prop("disabled", true)
+
+    progressButton(button, sound)
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#buttonClick">buttonClick</a></li><li><a href="global.html#DESERT">DESERT</a></li><li><a href="global.html#DESERT_NAMES">DESERT_NAMES</a></li><li><a href="global.html#disableButton">disableButton</a></li><li><a href="global.html#displayPoster">displayPoster</a></li><li><a href="global.html#displayPosterID">displayPosterID</a></li><li><a href="global.html#downloadImage">downloadImage</a></li><li><a href="global.html#enableButton">enableButton</a></li><li><a href="global.html#FOREST">FOREST</a></li><li><a href="global.html#FOREST_NAMES">FOREST_NAMES</a></li><li><a href="global.html#generatePoints">generatePoints</a></li><li><a href="global.html#loadScenes">loadScenes</a></li><li><a href="global.html#MESSAGE_TIME">MESSAGE_TIME</a></li><li><a href="global.html#playSound">playSound</a></li><li><a href="global.html#poster">poster</a></li><li><a href="global.html#progressButton">progressButton</a></li><li><a href="global.html#resetScene">resetScene</a></li><li><a href="global.html#setBiome">setBiome</a></li><li><a href="global.html#setDocHeight">setDocHeight</a></li><li><a href="global.html#soundLoaded">soundLoaded</a></li><li><a href="global.html#toBiome">toBiome</a></li><li><a href="global.html#toFinal">toFinal</a></li><li><a href="global.html#toIntro">toIntro</a></li><li><a href="global.html#toMenu">toMenu</a></li><li><a href="global.html#toVisualisation">toVisualisation</a></li><li><a href="global.html#TUTORIAL_TIME">TUTORIAL_TIME</a></li><li><a href="global.html#updateArrows">updateArrows</a></li><li><a href="global.html#updateLoading">updateLoading</a></li><li><a href="global.html#updateTimeline">updateTimeline</a></li><li><a href="global.html#visualisationTick">visualisationTick</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Apr 08 2022 01:09:43 GMT+0200 (Středoevropský letní čas)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
