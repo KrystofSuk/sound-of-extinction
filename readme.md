@@ -21,3 +21,8 @@ The licence for the audio files are as follows:
 | Saiga tatarica        | CC BY-SA 3.0 DE   	| tierstimmenarchiv.de         	|
 | Forest ambient        | CC0 1.0              	| freesound.org              	|
 | Desert ambient        | CC0 1.0              	| freesound.org              	|
+
+České vysoké učení technické v Praze <br>
+Fakulta informačních technologií <br>
+© 2022 Kryštof Suk. Všechna práva vyhrazena. <br>
+Tato práce vznikla jako školní dílo na Ceském vysokém učení technickém v Praze, Fakultě informačních technologií. Práce je chráněna právními předpisy a mezinárodními úmluvami o právu autorském a právech souvisejících s právem autorským. K jejímu užití, s výjimkou bezúplatných zákonných licencí a nad rámec oprávnění uvedených v Prohlášení na předchozí straně, je nezbytný souhlas autora.
