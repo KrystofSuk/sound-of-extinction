@@ -24,5 +24,5 @@ The licence for the audio files are as follows:
 
 České vysoké učení technické v Praze <br>
 Fakulta informačních technologií <br>
-© 2022 Kryštof Suk. Všechna práva vyhrazena. <br>
+© 2022 Kryštof Šuk. Všechna práva vyhrazena. <br>
 Tato práce vznikla jako školní dílo na Českém vysokém učení technickém v Praze, Fakultě informačních technologií. Práce je chráněna právními předpisy a mezinárodními úmluvami o právu autorském a právech souvisejících s právem autorským. K jejímu užití, s výjimkou bezúplatných zákonných licencí a nad rámec oprávnění uvedených v Prohlášení, je nezbytný souhlas autora.
